@@ -11,3 +11,5 @@ Better webUI for Smoothieware
 Known issues:
 - no file upload
 
+Screenshot
+![webUI](screenshot.jpg?raw=true)
