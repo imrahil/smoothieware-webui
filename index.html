@@ -7,7 +7,8 @@
     </head>
 
 <body>
-    <div>
+    <div ng-controller="BaseCtrl">
+        <select ng-model="languages.current" ng-options="key as value for (key, value) in languages.available"></select>
         <p translate>Hello World!</p>
     </div>
 

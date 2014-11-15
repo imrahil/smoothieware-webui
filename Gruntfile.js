@@ -34,4 +34,6 @@ module.exports = function(grunt) {
 
     grunt.registerTask('extract', ['nggettext_extract']);
     grunt.registerTask('compile', ['nggettext_compile']);
+
+    grunt.registerTask('default', ['nggettext_extract', 'nggettext_compile']);
 };
