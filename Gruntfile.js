@@ -14,7 +14,7 @@ module.exports = function(grunt) {
                     },
                 },
                 files: {
-                    'lang/template.pot': [
+                    'www/lang/template.pot': [
                             '**/*.html',
                             '**/*.aspx',
                             '**/langkeys.js' ]
@@ -24,7 +24,7 @@ module.exports = function(grunt) {
         'nggettext_compile': {
             all: {
                 files: {
-                    'js/translations.js': ['lang/*.po']
+                    'www/js/translations.js': ['www/lang/*.po']
                 }
             }
         }
