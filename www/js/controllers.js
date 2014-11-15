@@ -5,23 +5,21 @@ angular.module('smoothieApp.controllers', [])
 
     .controller('BaseCtrl', function ($scope, gettextCatalog)
     {
+        $scope.your_printer_name = "Topweight Hardware";
+
         // Language switcher
         $scope.languages = {
             current: gettextCatalog.currentLanguage,
             available: {
                 'de': 'German',
-                'pl': 'Polski',
-                'en': 'English'
+                'en': 'English',
+                'pl': 'Polski'
             }
         };
 
-        $scope.$watch('languages.current', function (lang)
+        $scope.setLanguage = function (item)
         {
-            if (!lang)
-            {
-                return;
-            }
-
-            gettextCatalog.setCurrentLanguage(lang);
-        });
+            $scope.languages.current = item;
+            gettextCatalog.setCurrentLanguage(item);
+        };
     });

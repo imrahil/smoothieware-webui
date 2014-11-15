@@ -3,16 +3,72 @@
     <head>
         <meta charset="UTF-8">
         <title>Smoothieware WebUI</title>
-        <link rel="stylesheet" href="css/style.css">
+        <!-- Bootstrap Core CSS -->
+        <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="css/sb-admin-2.css" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="css/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     </head>
 
-<body>
-    <div ng-controller="BaseCtrl">
-        <select ng-model="languages.current" ng-options="key as value for (key, value) in languages.available"></select>
-        <p translate>Hello World!</p>
-    </div>
+<body ng-controller="BaseCtrl">
+    <div id="wrapper">
 
-    <script src="lib/angular/angular.min.js"></script>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">Smoothieware webUI - {{your_printer_name}}</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li dropdown on-toggle="toggled(open)">
+                    <a class="dropdown-toggle" href="#">{{languages.current}} <i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="(key, value) in languages.available">
+                            <a href="#" ng-click="setLanguage(key)"><div>{{value}} - {{key}}</div></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+<!--
+                <li dropdown>
+                    <a class="dropdown-toggle" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                </li>
+-->
+
+            <!-- /.navbar-top-links -->
+
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header" translate>Hello World!</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+         </div>
+
+    </div>
+    <!-- /#wrapper -->
+
+    <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="lib/angular-gettext/dist/angular-gettext.min.js"></script>
 

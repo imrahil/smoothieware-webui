@@ -9,6 +9,6 @@ var smoothieApp = angular.module('smoothieApp', [
 ]);
 
 smoothieApp.run(function (gettextCatalog) {
-    gettextCatalog.setCurrentLanguage('de');
+    gettextCatalog.setCurrentLanguage('pl');
     gettextCatalog.debug = true;
 });
