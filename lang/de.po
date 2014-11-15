@@ -1,0 +1,17 @@
+# 
+# Translators:
+# imrahil <imrahil@imrahil.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: smoothieware-webui\n"
+"PO-Revision-Date: 2014-11-15 21:03+0000\n"
+"Last-Translator: imrahil <imrahil@imrahil.com>\n"
+"Language-Team: German (http://www.transifex.com/projects/p/smoothieware-webui/language/de/)\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: index.html
+msgid "Hello World!"
+msgstr "Herzlich willkommen!"

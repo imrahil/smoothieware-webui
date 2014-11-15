@@ -13,3 +13,9 @@ Known issues:
 
 Screenshot
 ![webUI](screenshot.jpg?raw=true)
+
+Useful commands
+- grunt install
+- npm install
+- grunt extract
+- grunt compile

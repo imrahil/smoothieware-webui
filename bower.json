@@ -1,0 +1,24 @@
+{
+  "name": "smoothieware-webui",
+  "version": "0.0.1",
+  "homepage": "https://github.com/imrahil/smoothieware-webui",
+  "description": "Better web UI for Smoothieware",
+  "main": "index.html",
+  "authors": [
+    "Jarek Szczepanski"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-bootstrap": "~0.11.2",
+    "angular": "~1.3.2",
+    "angular-gettext": "1.1.4"
+  }
+}

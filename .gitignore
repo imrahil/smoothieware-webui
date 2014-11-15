@@ -1,2 +1,4 @@
 /.idea
-/smoothieware-webui.iml
+/*.iml
+/lib
+/node_modules
