@@ -1,17 +1,15 @@
-'use strict';
+(function () {
 
-/* Controllers */
-angular.module('smoothieApp.controllers', [])
+    var injectParams = ['$scope', 'gettextCatalog'];
 
-    .controller('BaseCtrl', function ($scope, gettextCatalog)
-    {
+    var HeaderCtrl = function ($scope, gettextCatalog) {
         $scope.your_printer_name = "Topweight Hardware";
 
         // Language switcher
         $scope.languages = {
             current: gettextCatalog.currentLanguage,
             available: {
-                'de': 'German',
+                //'de': 'German',
                 'en': 'English',
                 'pl': 'Polski'
             }
@@ -22,4 +20,9 @@ angular.module('smoothieApp.controllers', [])
             $scope.languages.current = item;
             gettextCatalog.setCurrentLanguage(item);
         };
-    });
+    };
+
+    HeaderCtrl.$inject = injectParams;
+
+    angular.module('smoothieApp').controller('HeaderCtrl', HeaderCtrl);
+}());

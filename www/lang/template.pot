@@ -4,5 +4,77 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: www/index.html
-msgid "Hello World!"
+msgid "Bed"
+msgstr ""
+
+#: www/index.html
+msgid "Controls"
+msgstr ""
+
+#: www/index.html
+msgid "Extrude"
+msgstr ""
+
+#: www/index.html
+msgid "Extruder T0"
+msgstr ""
+
+#: www/index.html
+msgid "Extruder T1"
+msgstr ""
+
+#: www/index.html
+msgid "Extruders"
+msgstr ""
+
+#: www/index.html
+msgid "Get temperature"
+msgstr ""
+
+#: www/index.html
+msgid "Heater T0"
+msgstr ""
+
+#: www/index.html
+msgid "Heater T1"
+msgstr ""
+
+#: www/index.html
+msgid "Language:"
+msgstr ""
+
+#: www/index.html
+msgid "Motors off"
+msgstr ""
+
+#: www/index.html
+msgid "Name"
+msgstr ""
+
+#: www/index.html
+msgid "Off"
+msgstr ""
+
+#: www/index.html
+msgid "Options"
+msgstr ""
+
+#: www/index.html
+msgid "Reverse"
+msgstr ""
+
+#: www/index.html
+msgid "Set"
+msgstr ""
+
+#: www/index.html
+msgid "Settings"
+msgstr ""
+
+#: www/index.html
+msgid "Temperatures"
+msgstr ""
+
+#: www/index.html
+msgid "Value"
 msgstr ""

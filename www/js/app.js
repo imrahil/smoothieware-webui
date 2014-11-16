@@ -2,8 +2,6 @@
 
 /* App Module */
 var smoothieApp = angular.module('smoothieApp', [
-    'smoothieApp.controllers',
-    'smoothieApp.services',
     'ui.bootstrap',
     'gettext'
 ]);
