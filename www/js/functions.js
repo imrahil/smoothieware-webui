@@ -1,35 +1,35 @@
 function runCommand(cmd, silent)
 {
-    // Get some values from elements on the page:
-    var $form = $("#commandForm");
-    cmd += "\n";
-    url = silent ? "/command_silent" : "/command"; // $form.attr( "action" );
-    // Send the data using post
-    var posting = $.post(url, cmd);
-    // Put the results in a div
-    if (!silent)
-    {
-        posting.done(function (data)
-        {
-            $("#result").empty();
-            $.each(data.split('\n'), function (index)
-            {
-                $("#result").append(this + '<br/>');
-            });
-        });
-    }
+    //// Get some values from elements on the page:
+    //var $form = $("#commandForm");
+    //cmd += "\n";
+    //url = silent ? "/command_silent" : "/command"; // $form.attr( "action" );
+    //// Send the data using post
+    //var posting = $.post(url, cmd);
+    //// Put the results in a div
+    //if (!silent)
+    //{
+    //    posting.done(function (data)
+    //    {
+    //        $("#result").empty();
+    //        $.each(data.split('\n'), function (index)
+    //        {
+    //            $("#result").append(this + '<br/>');
+    //        });
+    //    });
+    //}
 }
 
 function runCommandSilent(cmd)
 {
-    runCommand(cmd, true);
+    //runCommand(cmd, true);
 }
 
 function runCommandCallback(cmd, callback)
 {
-    var url = "/command";
-    cmd += "\n";
-    var posting = $.post(url, cmd, callback);
+//    var url = "/command";
+//    cmd += "\n";
+//    var posting = $.post(url, cmd, callback);
 }
 
 function jogXYClick(cmd)
@@ -44,74 +44,74 @@ function jogZClick(cmd)
 
 function extrude(event, a, b)
 {
-    var length = document.getElementById("extrude_length").value;
-    var velocity = document.getElementById("extrude_velocity").value;
-
-    var isT0 = (event.currentTarget.id == 'extrude_t0' || event.currentTarget.id == 'reverse_t0');
-    var direction = (event.currentTarget.id == 'extrude_t0' || event.currentTarget.id == 'extrude_t1') ? 1 : -1;
-
-    runCommand("T" + (isT0 ? "0" : "1"), true);
-    runCommand("G91 G0 E" + (length * direction) + " F" + velocity + " G90", true);
+    //var length = document.getElementById("extrude_length").value;
+    //var velocity = document.getElementById("extrude_velocity").value;
+    //
+    //var isT0 = (event.currentTarget.id == 'extrude_t0' || event.currentTarget.id == 'reverse_t0');
+    //var direction = (event.currentTarget.id == 'extrude_t0' || event.currentTarget.id == 'extrude_t1') ? 1 : -1;
+    //
+    //runCommand("T" + (isT0 ? "0" : "1"), true);
+    //runCommand("G91 G0 E" + (length * direction) + " F" + velocity + " G90", true);
 }
 
 function motorsOff(event)
 {
-    runCommand("M18", true);
+    //runCommand("M18", true);
 }
 
 function heatSet(event)
 {
-    var ifHeat = (event.currentTarget.id == 'heat_set_t0' || event.currentTarget.id == 'heat_set_t1');
-    var isT0 = (event.currentTarget.id == 'heat_set_t0');
-    var type = ifHeat ? 104 : 140;
-    var temperature = (ifHeat) ? document.getElementById((isT0) ? "heat_value_t0" : "heat_value_t1").value : document.getElementById("bed_value").value;
-    if (ifHeat)
-    {
-        runCommand("T" + (isT0 ? "0" : "1"), true);
-    }
-    runCommand("M" + type + " S" + temperature, true);
+    //var ifHeat = (event.currentTarget.id == 'heat_set_t0' || event.currentTarget.id == 'heat_set_t1');
+    //var isT0 = (event.currentTarget.id == 'heat_set_t0');
+    //var type = ifHeat ? 104 : 140;
+    //var temperature = (ifHeat) ? document.getElementById((isT0) ? "heat_value_t0" : "heat_value_t1").value : document.getElementById("bed_value").value;
+    //if (ifHeat)
+    //{
+    //    runCommand("T" + (isT0 ? "0" : "1"), true);
+    //}
+    //runCommand("M" + type + " S" + temperature, true);
 }
 
 function heatOff(event)
 {
-    var ifHeat = (event.currentTarget.id == 'heat_off_t0' || event.currentTarget.id == 'heat_off_t1');
-    var isT0 = (event.currentTarget.id == 'heat_off_t0');
-    var type = ifHeat ? 104 : 140;
-    if (ifHeat)
-    {
-        runCommand("T" + (isT0 ? "0" : "1"), true);
-    }
-    runCommand("M" + type + " S0", true);
+    //var ifHeat = (event.currentTarget.id == 'heat_off_t0' || event.currentTarget.id == 'heat_off_t1');
+    //var isT0 = (event.currentTarget.id == 'heat_off_t0');
+    //var type = ifHeat ? 104 : 140;
+    //if (ifHeat)
+    //{
+    //    runCommand("T" + (isT0 ? "0" : "1"), true);
+    //}
+    //runCommand("M" + type + " S0", true);
 }
 
 function getTemperature()
 {
-    //runCommand("M105", false);
-    var regex_temp = /(B|T(\d*)):\s*([+]?[0-9]*\.?[0-9]+)?/gi;
-
-//    var test_data = "ok T:23.3 /0.0 @0 T1:23.4 /0.0 @0 B:24.8 /0.0 @0 P:29.4 /0.0 @0";
-    var posting = $.post("/command", "M105\n");
-    posting.done(function (data)
-    {
-        while ((result = regex_temp.exec(data)) !== null)
-        {
-            var tool = result[1];
-            var value = result[3];
-
-            if (tool == "T")
-            {
-                $("#heat_actual_t0").html(value + "&deg;C");
-            }
-            else if (tool == "T1")
-            {
-                $("#heat_actual_t1").html(value + "&deg;C");
-            }
-            if (tool == "B")
-            {
-                $("#heat_actual_bed").html(value + "&deg;C");
-            }
-        }
-    });
+//    //runCommand("M105", false);
+//    var regex_temp = /(B|T(\d*)):\s*([+]?[0-9]*\.?[0-9]+)?/gi;
+//
+////    var test_data = "ok T:23.3 /0.0 @0 T1:23.4 /0.0 @0 B:24.8 /0.0 @0 P:29.4 /0.0 @0";
+//    var posting = $.post("/command", "M105\n");
+//    posting.done(function (data)
+//    {
+//        while ((result = regex_temp.exec(data)) !== null)
+//        {
+//            var tool = result[1];
+//            var value = result[3];
+//
+//            if (tool == "T")
+//            {
+//                $("#heat_actual_t0").html(value + "&deg;C");
+//            }
+//            else if (tool == "T1")
+//            {
+//                $("#heat_actual_t1").html(value + "&deg;C");
+//            }
+//            if (tool == "B")
+//            {
+//                $("#heat_actual_bed").html(value + "&deg;C");
+//            }
+//        }
+//    });
 }
 
 function handleFileSelect(evt)

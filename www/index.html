@@ -4,14 +4,11 @@
         <meta charset="UTF-8">
         <title>Smoothieware WebUI</title>
         <!-- Bootstrap Core CSS -->
-        <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="lib/bootstrap-css-only/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Custom CSS -->
         <link href="css/sb-admin-2.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
-
-        <!-- Custom Fonts -->
-        <link href="css/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     </head>
 
 <body>
@@ -20,12 +17,12 @@
         <!-- navbar -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;" ng-controller="HeaderCtrl">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">Smoothieware webUI - {{your_printer_name}}</a>
+                <a class="navbar-brand" href="index.html">Smoothieware webUI - <span ng-bind="your_printer_name"></span></a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
                 <li dropdown>
-                    <a class="dropdown-toggle" href="#"><span translate>Language:</span> {{languages.current}} <i class="fa fa-caret-down"></i></a>
+                    <a class="dropdown-toggle" href="#"><span translate>Language:</span><span ng-bind="languages.current"></span> <i class="fa fa-caret-down"></i></a>
                     <ul class="dropdown-menu">
                         <li ng-repeat="(key, value) in languages.available">
                             <a href="#" ng-click="setLanguage(key)"><div>{{value}} - {{key}}</div></a>
@@ -55,7 +52,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" ng-controller="MotorCtrl">
                         <div class="panel-heading" translate>Controls</div>
                         <div class="panel-body panel-height">
                             <svg width="320" height="260" xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -127,7 +124,7 @@
                                     </symbol>
 
                                     <symbol id="JogRose" viewBox="20 -10 260 260">
-                                        <g id="HomeAll" onmouseup="runCommandSilent('G28')">
+                                        <g id="HomeAll" ng-click="homeAxis('all')">
                                             <path class="std" d="M10 182.5 h-10 v57.5 h57.5 v-10 a 125,125 0 0,1 -47.5 -47.5 Z"
                                                   fill="#f0f0f0">
                                                 <set attributeName="fill" to="orange" begin="mouseover" end="mouseout"/>
@@ -135,7 +132,7 @@
                                             <use x="3" y="217" width="20" height="18" xlink:href="#HomeIcon"/>
                                         </g>
 
-                                        <g id="HomeX" onmouseup="runCommandSilent('G28 X0')">
+                                        <g id="HomeX" data-ng-click="homeAxis('X')">
                                             <path class="std" d="M10 57.50 h-10 v-57.5 h57.5 v10 a 125,125 0 0,0 -47.5 47.5 Z"
                                                   fill="Khaki">
                                                 <set attributeName="fill" to="orange" begin="mouseover" end="mouseout"/>
@@ -143,7 +140,7 @@
                                             <use x="3" y="5" width="20" height="18" xlink:href="#HomeIcon"/>
                                             <text x="25" y="20" class="home"> X</text>
                                         </g>
-                                        <g id="HomeY" onmouseup="runCommandSilent('G28 Y0')">
+                                        <g id="HomeY" data-ng-click="homeAxis('Y')">
                                             <path class="std" d="M230 57.50 h10 v-57.5 h-57.5 v10 a 125,125 0 0,1 47.5 47.5 z"
                                                   fill="SteelBlue">
                                                 <set attributeName="fill" to="orange" begin="mouseover" end="mouseout"/>
@@ -152,7 +149,7 @@
                                             <text x="202" y="20" class="home"> Y</text>
                                         </g>
 
-                                        <g id="HomeZ" onmouseup="runCommandSilent('G28 Z0')">
+                                        <g id="HomeZ" data-ng-click="homeAxis('Z')">
                                             <path class="std" d="M230 182.5 h10 v57.5 h-57.5 v-10 a 125,125 0 0,0 47.5 -47.5 z"
                                                   fill="DarkSeaGreen">
                                                 <set attributeName="fill" to="orange" begin="mouseover" end="mouseout"/>
@@ -368,7 +365,7 @@
                                     Z:&nbsp;<input type="text" id="z_velocity" value="200" style="width:40px">
                                 </div>
                                 <div>
-                                    <button id="motors_off" class="btn btn-primary" translate>Motors off</button> <!-- TODO: add onclick action motorsOff(event) -->
+                                    <button id="motors_off" class="btn btn-primary" data-ng-click="motorsOff()" translate>Motors off</button>
                                 </div>
                             </div>
                         </div>
@@ -390,29 +387,29 @@
                                 <tr>
                                     <td class="col-lg-3" translate>Heater T0</td>
                                     <td class="col-lg-6">
-                                        <button id="heat_off_t0" onclick="heatOff(event)" class="btn btn-primary" translate>Off</button>&nbsp;&nbsp;
-                                        <input type="text" id="heat_value_t0" style="width:50px" value="200">&deg;C&nbsp;&nbsp;
-                                        <button id="heat_set_t0" onclick="heatSet(event)" class="btn btn-danger" translate>Set</button>
+                                        <button data-ng-click="heatOff('T0')" class="btn btn-primary" translate>Off</button>&nbsp;&nbsp;
+                                        <input type="text" style="width:50px" value="200" ng-model="heaterT0SelectedTemp">&deg;C&nbsp;&nbsp;
+                                        <button data-ng-click="heatSet('T0', heaterT0SelectedTemp)" class="btn btn-danger" translate>Set</button>
                                     </td>
-                                    <td><div id="heat_actual_t0"></div></td>
+                                    <td><span ng-bind="heaterT0ActualTemp"></span></td>
                                 </tr>
                                 <tr>
                                     <td translate>Heater T1</td>
                                     <td>
-                                        <button id="heat_off_t1" onclick="heatOff(event)" class="btn btn-primary" translate>Off</button>&nbsp;&nbsp;
-                                        <input type="text" id="heat_value_t1" style="width:50px" value="200">&deg;C&nbsp;&nbsp;
-                                        <button id="heat_set_t1" onclick="heatSet(event)" class="btn btn-danger" translate>Set</button>
+                                        <button data-ng-click="heatOff('T1')" class="btn btn-primary" translate>Off</button>&nbsp;&nbsp;
+                                        <input type="text" style="width:50px" value="200" ng-model="heaterT1SelectedTemp">&deg;C&nbsp;&nbsp;
+                                        <button data-ng-click="heatSet('T1', heaterT1SelectedTemp)" class="btn btn-danger" translate>Set</button>
                                     </td>
-                                    <td><div id="heat_actual_t1"></div></td>
+                                    <td><span ng-bind="heaterT1ActualTemp"></span></td>
                                 </tr>
                                 <tr>
                                     <td translate>Bed</td>
                                     <td>
-                                        <button id="bed_off" onclick="heatOff(event)" class="btn btn-primary" translate>Off</button>&nbsp;&nbsp;
-                                        <input type="text" id="bed_value" style="width:50px" value="60">&deg;C&nbsp;&nbsp;
-                                        <button id="bed_set" onclick="heatSet(event)" class="btn btn-danger" translate>Set</button>
+                                        <button data-ng-click="heatOff('bed')" class="btn btn-primary" translate>Off</button>&nbsp;&nbsp;
+                                        <input type="text" style="width:50px" value="60" ng-model="bedSelectedTemp">&deg;C&nbsp;&nbsp;
+                                        <button data-ng-click="heatSet('bed', bedSelectedTemp)" class="btn btn-danger" translate>Set</button>
                                     </td>
-                                    <td><div id="heat_actual_bed"></div></td>
+                                    <td><span ng-bind="bedActualTemp"></span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -423,7 +420,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" ng-controller="ExtruderCtrl">
                         <div class="panel-heading" translate>Extruders</div>
                         <div class="panel-body panel-height">
                             <table class="table">
@@ -437,15 +434,15 @@
                                 <tr>
                                     <td class="col-lg-4" translate>Extruder T0</td>
                                     <td>
-                                        <button id="extrude_t0" onclick="extrude(event)" class="btn btn-primary" translate>Extrude</button>
-                                        <button id="reverse_t0" onclick="extrude(event)" class="btn btn-info" translate>Reverse</button>
+                                        <button data-ng-click="extrude('T0', 1)" class="btn btn-primary" translate>Extrude</button>
+                                        <button data-ng-click="extrude('T0', -1)" class="btn btn-info" translate>Reverse</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td translate>Extruder T1</td>
                                     <td>
-                                        <button id="extrude_t1" onclick="extrude(event)" class="btn btn-primary" translate>Extrude</button>
-                                        <button id="reverse_t1" onclick="extrude(event)" class="btn btn-info" translate>Reverse</button>
+                                        <button data-ng-click="extrude('T1', 1)" class="btn btn-primary" translate>Extrude</button>
+                                        <button data-ng-click="extrude('T1', -1)" class="btn btn-info" translate>Reverse</button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -454,8 +451,8 @@
                         <div class="panel-footer">
                             <div class="row">
                                 <div class="col-lg-2" translate>Settings</div>
-                                <div class="col-lg-3"><input type="text" id="extrude_length" class="col-lg-6" value="5">&nbsp;mm @</div>
-                                <div class="col-lg-3"><input type="text" id="extrude_velocity" class="col-lg-6" value="100">&nbsp;mm/min</div>
+                                <div class="col-lg-3"><input type="text" class="col-lg-6" ng-model="filamenLength">&nbsp;mm @</div>
+                                <div class="col-lg-3"><input type="text" class="col-lg-6" ng-model="velocity">&nbsp;mm/min</div>
                             </div>
                         </div>
                     </div>
@@ -467,7 +464,7 @@
     </div>
     <!-- /#wrapper -->
 
-    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="lib/angular-gettext/dist/angular-gettext.min.js"></script>
 
@@ -475,6 +472,8 @@
     <script src="js/translations.js"></script>
     <script src="js/controllers/headerController.js"></script>
     <script src="js/controllers/tempController.js"></script>
+    <script src="js/controllers/motorController.js"></script>
+    <script src="js/controllers/extruderController.js"></script>
     <script src="js/services/dataService.js"></script>
 
 </body>
