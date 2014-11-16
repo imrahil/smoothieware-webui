@@ -4,6 +4,9 @@
 
     var MotorCtrl = function ($scope, dataService, $window) {
 
+        $scope.xy_velocity = 3000;
+        $scope.z_velocity = 200;
+
         $scope.homeAxis = function (axis) {
             console.log('Home axis: ' + axis);
         }
