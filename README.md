@@ -4,6 +4,7 @@ smoothieware-webui
 Better webUI for Smoothieware
 
 # pre-alpha state! use on your own risk! :)
+# online demo - http://imrahil.github.io/smoothieware-webui/demo/
 
 - based on Smoothieware web UI - https://github.com/Smoothieware/Smoothieware
 - using AngularJS + angular-gettext + angular-bootstrap
