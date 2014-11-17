@@ -4,6 +4,7 @@
 
     var MotorCtrl = function ($scope, dataService, $window) {
 
+        $scope.elementId = "";
         $scope.xy_velocity = 3000;
         $scope.z_velocity = 200;
 
@@ -21,6 +22,42 @@
                     $window.alert(error.statusText);
                 });
         }
+
+        $scope.jogButtonClick = function (cmd)
+        {
+            console.log('jogButtonClick - ' + cmd);
+
+            dataService.runCommand(cmd)
+                .then(function (result) {
+                    console.log('All ok!')
+                }, function (error) {
+                    $window.alert(error.statusText);
+                });
+        };
+
+        $scope.jogXYClick = function (cmd)
+        {
+            console.log('jogXYClick - ' + cmd);
+
+            dataService.runCommand("G91 G0 " + cmd + " F" + $scope.xy_velocity + " G90")
+                .then(function (result) {
+                    console.log('All ok!')
+                }, function (error) {
+                    $window.alert(error.statusText);
+                });
+        };
+
+        $scope.jogZClick = function (cmd)
+        {
+            console.log('jogZClick - ' + cmd);
+
+            dataService.runCommand("G91 G0 " + cmd + " F" + $scope.z_velocity + " G90")
+                .then(function (result) {
+                    console.log('All ok!')
+                }, function (error) {
+                    $window.alert(error.statusText);
+                });
+        };
     };
 
     MotorCtrl.$inject = injectParams;

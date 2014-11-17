@@ -22,6 +22,7 @@ function runCommand(cmd, silent)
 
 function runCommandSilent(cmd)
 {
+    console.log('test');
     //runCommand(cmd, true);
 }
 
@@ -34,12 +35,12 @@ function runCommandCallback(cmd, callback)
 
 function jogXYClick(cmd)
 {
-    runCommand("G91 G0 " + cmd + " F" + document.getElementById("xy_velocity").value + " G90", true)
+    //runCommand("G91 G0 " + cmd + " F" + document.getElementById("xy_velocity").value + " G90", true)
 }
 
 function jogZClick(cmd)
 {
-    runCommand("G91 G0 " + cmd + " F" + document.getElementById("z_velocity").value + " G90", true)
+    //runCommand("G91 G0 " + cmd + " F" + document.getElementById("z_velocity").value + " G90", true)
 }
 
 function extrude(event, a, b)
