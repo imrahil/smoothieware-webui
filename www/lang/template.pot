@@ -4,6 +4,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: www/index.html
+msgid "Abort"
+msgstr ""
+
+#: www/index.html
 msgid "Bed"
 msgstr ""
 
@@ -25,6 +29,10 @@ msgstr ""
 
 #: www/index.html
 msgid "Extruders"
+msgstr ""
+
+#: www/index.html
+msgid "Files"
 msgstr ""
 
 #: www/index.html
@@ -52,19 +60,23 @@ msgid "Name"
 msgstr ""
 
 #: www/index.html
-msgid "Off"
-msgstr ""
-
-#: www/index.html
 msgid "Options"
 msgstr ""
 
 #: www/index.html
-msgid "Reverse"
+msgid "Print"
 msgstr ""
 
 #: www/index.html
-msgid "Set"
+msgid "Progress"
+msgstr ""
+
+#: www/index.html
+msgid "Refresh"
+msgstr ""
+
+#: www/index.html
+msgid "Reverse"
 msgstr ""
 
 #: www/index.html

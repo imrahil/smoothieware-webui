@@ -1,8 +1,8 @@
 (function () {
 
-    var injectParams = ['$scope', 'dataService', '$window'];
+    var injectParams = ['$scope', 'dataService', '$window', '$location'];
 
-    var TempCtrl = function ($scope, dataService, $window) {
+    var TempCtrl = function ($scope, dataService, $window, $location) {
 
         $scope.heaterT0SelectedTemp = 0;
         $scope.heaterT0ActualTemp = "-";
@@ -40,32 +40,37 @@
         }
 
         $scope.getTemperatures = function () {
-            dataService.runCommand("M105")
-                .then(function (result_data) {
-                    var regex_temp = /(B|T(\d*)):\s*([+]?[0-9]*\.?[0-9]+)?/gi;
-                    var result;
+            var loc = $location.host();
 
-                    while ((result = regex_temp.exec(result_data)) !== null)
-                    {
-                        var tool = result[1];
-                        var value = result[3] + "°C";
+            if (loc == "localhost") {
+                var rand = Math.floor((Math.random() * 30) * 10 + 1) / 10;
+                $scope.heaterT0ActualTemp = (rand + 5) + "°C";
+                $scope.heaterT1ActualTemp = (rand + 10) + "°C";
+                $scope.bedActualTemp = (rand + 8) + "°C";
+            } else {
+                dataService.runCommand("M105")
+                    .then(function (result_data) {
+                        var regex_temp = /(B|T(\d*)):\s*([+]?[0-9]*\.?[0-9]+)?/gi;
+                        var result;
 
-                        if (tool == "T")
-                        {
-                            $scope.heaterT0ActualTemp = value;
+                        while ((result = regex_temp.exec(result_data)) !== null) {
+                            var tool = result[1];
+                            var value = result[3] + "°C";
+
+                            if (tool == "T") {
+                                $scope.heaterT0ActualTemp = value;
+                            }
+                            else if (tool == "T1") {
+                                $scope.heaterT1ActualTemp = value;
+                            }
+                            if (tool == "B") {
+                                $scope.bedActualTemp = value;
+                            }
                         }
-                        else if (tool == "T1")
-                        {
-                            $scope.heaterT1ActualTemp = value;
-                        }
-                        if (tool == "B")
-                        {
-                            $scope.bedActualTemp = value;
-                        }
-                    }
-                }, function (error) {
-                    $window.alert(error.statusText);
-                });
+                    }, function (error) {
+                        $window.alert(error.statusText);
+                    });
+            }
         }
     };
 
