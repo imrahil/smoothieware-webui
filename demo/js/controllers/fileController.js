@@ -9,7 +9,7 @@
         $scope.refreshFiles = function () {
             var loc = $location.host();
 
-            if (loc == "localhost") {
+            if (loc == "localhost" || loc == "http://imrahil.github.io") {
                 var list = "Begin file list\n" +
                 "config.txt\n" +
                 "web\n" +

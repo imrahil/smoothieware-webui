@@ -42,7 +42,7 @@
         $scope.getTemperatures = function () {
             var loc = $location.host();
 
-            if (loc == "localhost") {
+            if (loc == "localhost" || loc == "http://imrahil.github.io") {
                 var rand = Math.floor((Math.random() * 30) * 10 + 1) / 10;
                 $scope.heaterT0ActualTemp = (rand + 5) + "°C";
                 $scope.heaterT1ActualTemp = (rand + 10) + "°C";
