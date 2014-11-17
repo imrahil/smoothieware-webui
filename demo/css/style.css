@@ -1,0 +1,18 @@
+.table tbody>tr>td{
+    vertical-align: middle;
+}
+.panel-footer {
+    height: 55px;
+}
+@media(min-width:768px) {
+    .panel-height {
+        min-height: 300px;
+    }
+}
+
+@media(max-width:1200px) {
+    #extruderPanel {
+        clear: both;
+    }
+}
+
