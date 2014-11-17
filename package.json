@@ -1,6 +1,6 @@
 {
   "name": "smoothieware-webui",
-  "version": "0.0.1",
+  "version": "2.0",
   "description": "Better web UI for Smoothieware",
   "dependencies": {
     "grunt": "^0.4.5",
