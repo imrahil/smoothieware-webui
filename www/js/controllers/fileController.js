@@ -1,15 +1,15 @@
 (function () {
 
-    var injectParams = ['$scope', 'dataService', '$location'];
+    var injectParams = ['$scope', 'dataService', '$window', '$location'];
 
-    var FileCtrl = function ($scope, dataService, $location) {
+    var FileCtrl = function ($scope, dataService, $window, $location) {
 
         $scope.fileList = [];
 
         $scope.refreshFiles = function () {
             var loc = $location.host();
 
-            if (loc == "localhost") {
+            if (loc == "localhost" || loc == "imrahil.github.io") {
                 var list = "Begin file list\n" +
                 "config.txt\n" +
                 "web\n" +
