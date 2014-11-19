@@ -97,5 +97,5 @@ msgid "Temperatures"
 msgstr "Temperatury"
 
 #: www/index.html
-msgid "Value"
-msgstr "Pomiar"
+msgid "Value | Target"
+msgstr "Pomiar | Cel"

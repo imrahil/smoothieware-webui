@@ -85,5 +85,5 @@ msgid "Temperatures"
 msgstr ""
 
 #: www/index.html
-msgid "Value"
+msgid "Value | Target"
 msgstr ""
