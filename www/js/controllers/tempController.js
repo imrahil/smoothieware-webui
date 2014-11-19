@@ -29,15 +29,17 @@
         $scope.heatOff = function(heater) {
             console.log('HeatOff - heater: ' + heater);
 
-            var ifHeat = (heater != 'bed');
-            var type = ifHeat ? 104 : 140;
+            var isHeater = (heater != 'bed');
+            var type = isHeater ? 104 : 140;
 
-            if (ifHeat)
+            var command = "M" + type + " S0";
+
+            if (isHeater)
             {
-                dataService.runCommand(heater);
+                command += " " + heater;
             }
 
-            dataService.runCommand("M" + type + " S0")
+            dataService.runCommand(command)
                 .then(function (result_data) {
                     $scope.getTemperatures();
                 });
@@ -46,15 +48,17 @@
         $scope.heatSet = function(heater, selectedTemp) {
             console.log('HeatSet - heater: ' + heater + ' | temp: ' + selectedTemp);
 
-            var ifHeat = (heater != 'bed');
-            var type = ifHeat ? 104 : 140;
+            var isHeater = (heater != 'bed');
+            var type = isHeater ? 104 : 140;
 
-            if (ifHeat)
+            var command = "M" + type + " S" + selectedTemp;
+
+            if (isHeater)
             {
-                dataService.runCommand(heater);
+                command += " " + heater;
             }
 
-            dataService.runCommand("M" + type + " S" + selectedTemp)
+            dataService.runCommand(command)
                 .then(function (result_data) {
                     $scope.getTemperatures();
                 });
