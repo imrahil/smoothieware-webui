@@ -22,7 +22,10 @@
                 dataService.runCommand(heater);
             }
 
-            dataService.runCommand("M" + type + " S0");
+            dataService.runCommand("M" + type + " S0")
+                .then(function (result_data) {
+                    $scope.getTemperatures();
+                });
         }
 
         $scope.heatSet = function(heater, selectedTemp) {
@@ -36,7 +39,10 @@
                 dataService.runCommand(heater);
             }
 
-            dataService.runCommand("M" + type + " S" + selectedTemp);
+            dataService.runCommand("M" + type + " S" + selectedTemp)
+                .then(function (result_data) {
+                    $scope.getTemperatures();
+                });
         }
 
         $scope.getTemperatures = function () {
@@ -50,12 +56,13 @@
             } else {
                 dataService.runCommand("M105")
                     .then(function (result_data) {
-                        var regex_temp = /(B|T(\d*)):\s*([+]?[0-9]*\.?[0-9]+)?/gi;
+                        var regex_temp = /(B|T(\d*)):\s*([+]?[0-9]*\.?[0-9]+)? (\/)([+]?[0-9]*\.?[0-9]+)?/gi;
                         var result;
 
                         while ((result = regex_temp.exec(result_data)) !== null) {
                             var tool = result[1];
                             var value = result[3] + "°C";
+                            value += " | " + result[5] + "°C";
 
                             if (tool == "T") {
                                 $scope.heaterT0ActualTemp = value;
