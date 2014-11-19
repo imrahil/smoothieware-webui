@@ -31,6 +31,7 @@
         }
 
         $scope.parseFilelist = function (rawdata) {
+            $scope.fileList = [];
             var list = rawdata.split('\n');
             angular.forEach(list, function(value, key) {
                 value = value.trim();
