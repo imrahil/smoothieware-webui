@@ -1,8 +1,8 @@
 (function () {
 
-    var injectParams = ['$scope', 'dataService', '$window', '$location'];
+    var injectParams = ['$scope', '$timeout', 'dataService', '$window', '$location'];
 
-    var TempCtrl = function ($scope, dataService, $window, $location) {
+    var TempCtrl = function ($scope, $timeout, dataService, $window, $location) {
 
         $scope.heaterT0SelectedTemp = 0;
         $scope.heaterT0ActualTemp = "-";
@@ -10,6 +10,21 @@
         $scope.heaterT1ActualTemp = "-";
         $scope.bedSelectedTemp = 0;
         $scope.bedActualTemp = "-";
+
+        var counter = 0;
+
+        $scope.onTimeout = function () {
+            counter++;
+
+            if (counter == 5) {
+                $scope.getTemperatures();
+                counter = 0;
+            }
+
+            mytimeout = $timeout($scope.onTimeout, 1000);
+        }
+
+        var mytimeout = $timeout($scope.onTimeout, 1000);
 
         $scope.heatOff = function(heater) {
             console.log('HeatOff - heater: ' + heater);
