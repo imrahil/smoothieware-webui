@@ -64,9 +64,10 @@
                         </div>
                         <div class="panel-footer">
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-3 col-xs-4">XY:&nbsp;<input type="text" id="xy_velocity" ng-model="xy_velocity" style="width: 40px;"/>&nbsp;mm/min</div>
-                                <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2">Z:&nbsp;<input type="text" ng-model="z_velocity" style="width:40px"></div>
-                                <div class="col-lg-4 col-md-2 col-sm-2"><button class="btn btn-primary" data-ng-click="motorsOff()" translate>Motors off</button></div>
+                                <div class="col-lg-12">
+                                    XY:&nbsp;<input type="text" id="xy_velocity" ng-model="xy_velocity" style="width: 40px;"/>&nbsp;mm/min&nbsp;
+                                    Z:&nbsp;<input type="text" ng-model="z_velocity" style="width:40px">
+                                    <button class="btn btn-primary" data-ng-click="motorsOff()" translate>Motors off</button></div>
                             </div>
                         </div>
                     </div>
@@ -80,18 +81,18 @@
                                     <tr>
                                         <th translate>Name</th>
                                         <th translate>Options</th>
-                                        <th translate>Value</th>
+                                        <th translate>Value | Target</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td class="col-lg-3 col-md-3" translate>Heater T0</td>
-                                    <td class="col-lg-7">
+                                    <td class="col-lg-6">
                                         <button data-ng-click="heatOff('T0')" class="btn btn-primary glyphicon glyphicon-off"></button>&nbsp;&nbsp;
                                         <input type="text" style="width:50px" value="200" ng-model="heaterT0SelectedTemp">&deg;C&nbsp;&nbsp;
                                         <button data-ng-click="heatSet('T0', heaterT0SelectedTemp)" class="btn btn-danger glyphicon glyphicon-ok"></button>
                                     </td>
-                                    <td class="col-lg-2"><span ng-bind="heaterT0ActualTemp"></span></td>
+                                    <td class="col-lg-3"><span ng-bind="heaterT0ActualTemp"></span></td>
                                 </tr>
                                 <tr>
                                     <td translate>Heater T1</td>
@@ -157,7 +158,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="filePanel" class="col-lg-12 col-md-6">
+                <div id="filePanel" class="col-lg-6 col-md-6">
                     <div class="panel panel-default" data-ng-controller="FileCtrl" data-ng-init="refreshFiles()">
                         <div class="panel-heading">
                             <span translate>Files</span>
@@ -175,6 +176,19 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="panel-footer"></div>
+                    </div>
+                </div>
+                <div id="commandsPanel" class="col-lg-6 col-md-12">
+                    <div class="panel panel-default" data-ng-controller="CommandCtrl">
+                        <div class="panel-heading" translate>Commands</div>
+                        <div class="panel-body panel-height">
+                            <pre ng-bind-html="commandOutput" style="min-height: 260px;"></pre>
+                        </div>
+                        <div class="panel-footer">
+                            <input type="text" placeholder="{{'Send Command...'|translate}}" style="width: 250px;" ng-model="command" ng-keydown="handleKeyDown($event)" ng-keyup="handleKeyUp($event)">
+                            <button data-ng-click="sendCommand()" class="btn btn-success" translate>Send</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -182,6 +196,8 @@
     </div>
 
     <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular-mocks/angular-mocks.js"></script>
+    <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="lib/angular-gettext/dist/angular-gettext.min.js"></script>
 
@@ -200,6 +216,7 @@
     <script src="js/controllers/motorController.js"></script>
     <script src="js/controllers/extruderController.js"></script>
     <script src="js/controllers/fileController.js"></script>
+    <script src="js/controllers/commandController.js"></script>
     <script src="js/services/dataService.js"></script>
 
 </body>

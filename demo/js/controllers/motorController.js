@@ -17,7 +17,7 @@
 
             dataService.runCommand("M18")
                 .then(function (result) {
-                    console.log('Motors turned off!')
+                    console.log('Motors turned off! - Result: ' + result);
                 }, function (error) {
                     $window.alert(error.statusText);
                 });
@@ -29,7 +29,7 @@
 
             dataService.runCommand(cmd)
                 .then(function (result) {
-                    console.log('All ok!')
+                    console.log('Result: ' + result)
                 }, function (error) {
                     $window.alert(error.statusText);
                 });
@@ -41,7 +41,7 @@
 
             dataService.runCommand("G91 G0 " + cmd + " F" + $scope.xy_velocity + " G90")
                 .then(function (result) {
-                    console.log('All ok!')
+                    console.log('Result: ' + result);
                 }, function (error) {
                     $window.alert(error.statusText);
                 });
@@ -53,7 +53,7 @@
 
             dataService.runCommand("G91 G0 " + cmd + " F" + $scope.z_velocity + " G90")
                 .then(function (result) {
-                    console.log('All ok!')
+                    console.log('Result: ' + result);
                 }, function (error) {
                     $window.alert(error.statusText);
                 });
