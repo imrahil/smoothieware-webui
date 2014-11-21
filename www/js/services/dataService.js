@@ -13,7 +13,6 @@
                 .then(
                     function (results) {
                         return results.data;
-                        //return test_data;
                     }
                 );
         };

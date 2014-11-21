@@ -12,6 +12,10 @@ msgid "Bed"
 msgstr ""
 
 #: www/index.html
+msgid "Commands"
+msgstr ""
+
+#: www/index.html
 msgid "Controls"
 msgstr ""
 
@@ -77,6 +81,14 @@ msgstr ""
 
 #: www/index.html
 msgid "Reverse"
+msgstr ""
+
+#: www/index.html
+msgid "Send"
+msgstr ""
+
+#: www/index.html
+msgid "Send Command..."
 msgstr ""
 
 #: www/index.html

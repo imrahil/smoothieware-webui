@@ -10,6 +10,7 @@ Better webUI for Smoothieware
 - using AngularJS + angular-gettext + angular-bootstrap
 - using Transifex - https://www.transifex.com/projects/p/smoothieware-webui/
 - template based on SB-Admin2 - http://startbootstrap.com/template-overviews/sb-admin-2/
+- commandController based on terminal.js from OctoPrint
 
 - prepared for dual extruder setup
 

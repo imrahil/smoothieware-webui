@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: smoothieware-webui\n"
-"PO-Revision-Date: 2014-11-17 13:01+0000\n"
+"PO-Revision-Date: 2014-11-21 22:20+0000\n"
 "Last-Translator: imrahil <imrahil@imrahil.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/smoothieware-webui/language/pl/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,6 +19,10 @@ msgstr "Przerwij"
 #: www/index.html
 msgid "Bed"
 msgstr "Stół"
+
+#: www/index.html
+msgid "Commands"
+msgstr "Komendy"
 
 #: www/index.html
 msgid "Controls"
@@ -87,6 +91,14 @@ msgstr "Odśwież"
 #: www/index.html
 msgid "Reverse"
 msgstr "Cofnij"
+
+#: www/index.html
+msgid "Send"
+msgstr "Wyślij"
+
+#: www/index.html
+msgid "Send Command..."
+msgstr "Wyślij polecenie"
 
 #: www/index.html
 msgid "Settings"

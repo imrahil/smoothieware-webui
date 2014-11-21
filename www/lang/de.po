@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: smoothieware-webui\n"
-"PO-Revision-Date: 2014-11-16 09:57+0000\n"
+"PO-Revision-Date: 2014-11-21 22:19+0000\n"
 "Last-Translator: imrahil <imrahil@imrahil.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/smoothieware-webui/language/de/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,7 +13,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: www/index.html
+msgid "Abort"
+msgstr ""
+
+#: www/index.html
 msgid "Bed"
+msgstr ""
+
+#: www/index.html
+msgid "Commands"
 msgstr ""
 
 #: www/index.html
@@ -34,6 +42,10 @@ msgstr ""
 
 #: www/index.html
 msgid "Extruders"
+msgstr ""
+
+#: www/index.html
+msgid "Files"
 msgstr ""
 
 #: www/index.html
@@ -61,11 +73,19 @@ msgid "Name"
 msgstr ""
 
 #: www/index.html
-msgid "Off"
+msgid "Options"
 msgstr ""
 
 #: www/index.html
-msgid "Options"
+msgid "Print"
+msgstr ""
+
+#: www/index.html
+msgid "Progress"
+msgstr ""
+
+#: www/index.html
+msgid "Refresh"
 msgstr ""
 
 #: www/index.html
@@ -73,7 +93,11 @@ msgid "Reverse"
 msgstr ""
 
 #: www/index.html
-msgid "Set"
+msgid "Send"
+msgstr ""
+
+#: www/index.html
+msgid "Send Command..."
 msgstr ""
 
 #: www/index.html

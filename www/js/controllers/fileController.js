@@ -1,33 +1,20 @@
 (function () {
 
-    var injectParams = ['$scope', 'dataService', '$window', '$location'];
+    var injectParams = ['$scope', 'dataService', '$window'];
 
-    var FileCtrl = function ($scope, dataService, $window, $location) {
+    var FileCtrl = function ($scope, dataService, $window) {
 
         $scope.fileList = [];
 
         $scope.refreshFiles = function () {
-            var loc = $location.host();
+            console.log('RefreshFiles');
 
-            if (loc == "localhost" || loc == "imrahil.github.io") {
-                var list = "Begin file list\n" +
-                "config.txt\n" +
-                "web\n" +
-                "web2\n" +
-                "test1.gcode\n" +
-                "test2.gcode\n" +
-                "test3.gcode\n" +
-                "End file list\n" +
-                "ok";
-                $scope.parseFilelist(list);
-            } else {
-                dataService.runCommand("M20")
-                    .then(function (result_data) {
-                        $scope.parseFilelist(result_data);
-                    }, function (error) {
-                        $window.alert(error.statusText);
-                    });
-            }
+            dataService.runCommand("M20")
+                .then(function (result_data) {
+                    $scope.parseFilelist(result_data);
+                }, function (error) {
+                    $window.alert(error.statusText);
+                });
         }
 
         $scope.parseFilelist = function (rawdata) {
@@ -42,7 +29,10 @@
         }
 
         $scope.print = function (file) {
-            dataService.runCommand("play /sd/" + file);
+            dataService.runCommand("play /sd/" + file)
+                .then(function (result) {
+                    console.log('Result: ' + result);
+                });
         }
 
         $scope.progress = function () {
