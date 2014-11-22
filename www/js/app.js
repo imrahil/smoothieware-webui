@@ -4,7 +4,9 @@
 var smoothieApp = angular.module('smoothieApp', [
     'ui.bootstrap',
     'gettext',
+     //removeIf(production)
     'ngMockE2E',
+      //endRemoveIf(production)
     'ngSanitize'
 ]);
 
@@ -12,6 +14,7 @@ smoothieApp.run(function (gettextCatalog, $httpBackend) {
     gettextCatalog.setCurrentLanguage('pl');
     gettextCatalog.debug = true;
 
+    //removeIf(production)
     $httpBackend.whenPOST('/command').respond(function(method, url, data) {
         //console.log('Received these data:', method, url, data);
 
@@ -45,4 +48,5 @@ smoothieApp.run(function (gettextCatalog, $httpBackend) {
     });
 
     $httpBackend.whenGET(/^img\//).passThrough();
+    //endRemoveIf(production)
 });
