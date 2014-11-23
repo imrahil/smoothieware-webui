@@ -7,7 +7,8 @@ var smoothieApp = angular.module('smoothieApp', [
      //removeIf(production)
     'ngMockE2E',
       //endRemoveIf(production)
-    'ngSanitize'
+    'ngSanitize',
+    'luegg.directives'
 ]);
 
 smoothieApp.run(function (gettextCatalog, $httpBackend) {
@@ -41,6 +42,10 @@ smoothieApp.run(function (gettextCatalog, $httpBackend) {
             "test" + (rand + 3) + ".gcode\n" +
             "End file list\n" +
             "ok";
+        } else if (data == "progress") {
+            result = "Nothing is printed";
+        } else if (data == "abort") {
+            result = "Abort! Abort!";
         }
 
 

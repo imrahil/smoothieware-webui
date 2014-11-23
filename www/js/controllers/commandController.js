@@ -1,13 +1,22 @@
 (function () {
 
-    var injectParams = ['$scope', 'dataService'];
+    var injectParams = ['$scope', 'dataService', 'sharedService'];
 
-    var CommandCtrl = function ($scope, dataService) {
+    var CommandCtrl = function ($scope, dataService, sharedService) {
+
+        $scope.log = [];
 
         $scope.command = "";
         $scope.commandOutput = "";
         $scope.cmdHistory = [];
         $scope.cmdHistoryIdx = -1;
+
+        $scope.autoscrollEnabled = true;
+        $scope.filterOutput = false;
+
+        $scope.$on('handleBroadcast', function () {
+            $scope.updateOutput(sharedService.message);
+        });
 
         $scope.sendCommand = function () {
             if (!$scope.command) {
@@ -18,7 +27,8 @@
 
             dataService.runCommand($scope.command)
                 .then(function (result_data) {
-                    $scope.commandOutput += result_data + "\n";
+                    $scope.updateOutput(result_data);
+
                     $scope.cmdHistory.push($scope.command);
                     $scope.cmdHistory.slice(-300); // just to set a sane limit to how many manually entered commands will be saved...
                     $scope.cmdHistoryIdx = $scope.cmdHistory.length;
@@ -57,6 +67,35 @@
 
             return true;
         }
+
+        $scope.clear = function () {
+            $scope.commandOutput = "";
+        }
+
+        $scope.onFilterChange = function () {
+            $scope.updateOutput();
+        };
+
+        $scope.updateOutput = function (message) {
+            if (!$scope.log)
+                $scope.log = [];
+
+            if (message) {
+                $scope.log = $scope.log.concat(message);
+                $scope.log = $scope.log.slice(-300);
+            }
+
+            var regex = /ok T:/g;
+
+            var output = "";
+            var logLength = $scope.log.length;
+            for (var i = 0; i < logLength; i++) {
+                if ($scope.filterOutput && $scope.log[i].match(regex)) continue;
+                output += $scope.log[i] + "\n";
+            }
+
+            $scope.commandOutput = output;
+        };
     };
 
     CommandCtrl.$inject = injectParams;

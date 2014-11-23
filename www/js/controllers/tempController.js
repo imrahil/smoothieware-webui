@@ -1,8 +1,8 @@
 (function () {
 
-    var injectParams = ['$scope', '$timeout', 'dataService', '$window'];
+    var injectParams = ['$scope', '$timeout', 'dataService', 'sharedService'];
 
-    var TempCtrl = function ($scope, $timeout, dataService, $window) {
+    var TempCtrl = function ($scope, $timeout, dataService, sharedService) {
 
         $scope.heaterT0SelectedTemp = 0;
         $scope.heaterT0ActualTemp = "-";
@@ -71,6 +71,8 @@
         $scope.getTemperatures = function () {
             dataService.runCommand("M105")
                 .then(function (result_data) {
+                    sharedService.prepForBroadcast(result_data);
+
                     var regex_temp = /(B|T(\d*)):\s*([+]?[0-9]*\.?[0-9]+)? (\/)([+]?[0-9]*\.?[0-9]+)?/gi;
                     var result;
 
@@ -90,7 +92,7 @@
                         }
                     }
                 }, function (error) {
-                    $window.alert(error.statusText);
+                    console.error(error.statusText);
                 });
         }
     };

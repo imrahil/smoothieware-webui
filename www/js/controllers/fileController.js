@@ -1,8 +1,8 @@
 (function () {
 
-    var injectParams = ['$scope', 'dataService', '$window'];
+    var injectParams = ['$scope', 'dataService', 'sharedService'];
 
-    var FileCtrl = function ($scope, dataService, $window) {
+    var FileCtrl = function ($scope, dataService, sharedService) {
 
         $scope.fileList = [];
 
@@ -13,7 +13,7 @@
                 .then(function (result_data) {
                     $scope.parseFilelist(result_data);
                 }, function (error) {
-                    $window.alert(error.statusText);
+                    console.error(error.statusText);
                 });
         }
 
@@ -36,11 +36,21 @@
         }
 
         $scope.progress = function () {
-            dataService.runCommand("progress");
+            dataService.runCommand("progress")
+                .then(function (result_data) {
+                    sharedService.prepForBroadcast(result_data);
+                }, function (error) {
+                    console.error(error.statusText);
+                });
         }
 
         $scope.abort = function () {
-            dataService.runCommand("abort");
+            dataService.runCommand("abort")
+                .then(function (result_data) {
+                    sharedService.prepForBroadcast(result_data);
+                }, function (error) {
+                    console.error(error.statusText);
+                });
         }
     };
 

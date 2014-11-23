@@ -1,8 +1,8 @@
 (function () {
 
-    var injectParams = ['$scope', 'dataService', '$window'];
+    var injectParams = ['$scope', 'dataService'];
 
-    var MotorCtrl = function ($scope, dataService, $window) {
+    var MotorCtrl = function ($scope, dataService) {
 
         $scope.elementId = "";
         $scope.xy_velocity = 3000;
@@ -19,7 +19,7 @@
                 .then(function (result) {
                     console.log('Motors turned off! - Result: ' + result);
                 }, function (error) {
-                    $window.alert(error.statusText);
+                    console.error(error.statusText);
                 });
         }
 
@@ -31,7 +31,7 @@
                 .then(function (result) {
                     console.log('Result: ' + result)
                 }, function (error) {
-                    $window.alert(error.statusText);
+                    console.error(error.statusText);
                 });
         };
 
@@ -43,7 +43,7 @@
                 .then(function (result) {
                     console.log('Result: ' + result);
                 }, function (error) {
-                    $window.alert(error.statusText);
+                    console.error(error.statusText);
                 });
         };
 
@@ -55,7 +55,7 @@
                 .then(function (result) {
                     console.log('Result: ' + result);
                 }, function (error) {
-                    $window.alert(error.statusText);
+                    console.error(error.statusText);
                 });
         };
     };

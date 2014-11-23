@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: smoothieware-webui\n"
-"PO-Revision-Date: 2014-11-21 22:20+0000\n"
+"PO-Revision-Date: 2014-11-23 19:05+0000\n"
 "Last-Translator: imrahil <imrahil@imrahil.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/smoothieware-webui/language/pl/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,102 +12,122 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Abort"
 msgstr "Przerwij"
 
-#: www/index.html
+#: dist/index.html www/index.html
+msgid "Autoscroll"
+msgstr "Autoscroll"
+
+#: dist/index.html www/index.html
 msgid "Bed"
 msgstr "Stół"
 
 #: www/index.html
+msgid "Clear"
+msgstr "Wyczyść"
+
+#: dist/index.html www/index.html
 msgid "Commands"
 msgstr "Komendy"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Controls"
 msgstr "Sterowanie"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Extrude"
 msgstr "Wytłaczaj"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Extruder T0"
 msgstr "Ekstruder T0"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Extruder T1"
 msgstr "Ekstruder T1"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Extruders"
 msgstr "Ekstrudery"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Files"
 msgstr "Pliki"
 
 #: www/index.html
+msgid "Filter temperatures"
+msgstr "Filtruj temperatury"
+
+#: dist/index.html www/index.html
 msgid "Get temperature"
 msgstr "Sprawdź temperatury"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Heater T0"
 msgstr "Głowica T0"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Heater T1"
 msgstr "Głowica T1"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Language:"
 msgstr "Język:"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Motors off"
 msgstr "Wyłącz"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Name"
 msgstr "Nazwa"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Options"
 msgstr "Opcje"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Print"
 msgstr "Drukuj"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Progress"
 msgstr "Postęp"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Refresh"
 msgstr "Odśwież"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Reverse"
 msgstr "Cofnij"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Send"
 msgstr "Wyślij"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Send Command..."
 msgstr "Wyślij polecenie"
 
-#: www/index.html
+#: dist/index.html www/index.html
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: www/index.html
+#: dist/index.html www/index.html
+msgid "Speed:"
+msgstr "Prędkość:"
+
+#: dist/index.html www/index.html
 msgid "Temperatures"
 msgstr "Temperatury"
 
-#: www/index.html
+#: dist/index.html www/index.html
+msgid "Upload"
+msgstr "Wczytaj"
+
+#: dist/index.html www/index.html
 msgid "Value | Target"
 msgstr "Pomiar | Cel"

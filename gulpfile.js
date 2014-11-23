@@ -2,9 +2,14 @@ var gulp = require('gulp')
 var concat = require('gulp-concat')
 var cdnizer = require("gulp-cdnizer");
 var removeCode = require('gulp-remove-code');
+var del = require('del');
+
+gulp.task('clean', function() {
+  del(['dist']);
+});
 
 gulp.task('js', function () {
-    gulp.src(['www/js/**/app.js', 'www/js/**/translations.js', 'www/js/controllers/**/*.js', 'www/js/services/**/*.js'])
+    gulp.src(['www/js/**/app.js', 'www/js/**/translations.js', 'www/js/controllers/**/*.js', 'www/js/services/**/*.js', 'www/lib/angularjs-scroll-glue-Luegg/src/**/scrollglue.js'])
         .pipe(concat('app.js'))
         .pipe(removeCode({ production: true }))
         .pipe(gulp.dest('dist/js'))
@@ -43,4 +48,5 @@ gulp.task('stuff', function () {
 
 gulp.task('css', function () {
 })
-gulp.task('default', ['js', 'stuff']);
+
+gulp.task('default', ['clean', 'js', 'stuff', 'css']);

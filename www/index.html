@@ -39,12 +39,12 @@
                     <div class="panel panel-default" data-ng-controller="MotorCtrl">
                         <div class="panel-heading" translate>Controls</div>
                         <div class="panel-body panel-height">
-                            <span ng-include="'./img/jogdial.svg'"></span>
+                            <span ng-include="'img/jogdial.svg'"></span>
                         </div>
                         <div class="panel-footer">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    XY:&nbsp;<input type="text" id="xy_velocity" ng-model="xy_velocity" style="width: 40px;"/>&nbsp;mm/min&nbsp;
+                                    <span translate>Speed:</span> XY:&nbsp;<input type="text" id="xy_velocity" ng-model="xy_velocity" style="width: 40px;"/>&nbsp;mm/min&nbsp;
                                     Z:&nbsp;<input type="text" ng-model="z_velocity" style="width:40px">
                                     <button class="btn btn-primary" data-ng-click="motorsOff()" translate>Motors off</button></div>
                             </div>
@@ -145,6 +145,7 @@
                                 <button class="btn btn-xs btn-primary" data-ng-click="refreshFiles()" translate>Refresh</button>
                                 <button class="btn btn-xs btn-primary" data-ng-click="progress()" translate>Progress</button>
                                 <button class="btn btn-xs btn-primary" data-ng-click="abort()" translate>Abort</button>
+                                <button class="btn btn-xs btn-primary" data-ng-click="upload()" translate>Upload</button>
                             </div>
                         </div>
                         <div class="panel-body panel-height">
@@ -160,13 +161,23 @@
                 </div>
                 <div id="commandsPanel" class="col-lg-6 col-md-12">
                     <div class="panel panel-default" data-ng-controller="CommandCtrl">
-                        <div class="panel-heading" translate>Commands</div>
+                        <div class="panel-heading">
+                            <span translate>Commands</span>
+                            <div class="pull-right">
+                                <button class="btn btn-xs btn-primary" data-ng-click="clear()" translate>Clear</button>
+                            </div>
+                        </div>
                         <div class="panel-body panel-height">
-                            <pre ng-bind-html="commandOutput" style="min-height: 260px;"></pre>
+                            <pre ng-bind-html="commandOutput" style="min-height: 260px; max-height: 260px" scroll-glue="autoscrollEnabled"></pre>
                         </div>
                         <div class="panel-footer">
-                            <input type="text" placeholder="{{'Send Command...'|translate}}" style="width: 250px;" ng-model="command" ng-keydown="handleKeyDown($event)" ng-keyup="handleKeyUp($event)">
-                            <button data-ng-click="sendCommand()" class="btn btn-success" translate>Send</button>
+                            <div class="col-lg-12">
+                                <input type="text" placeholder="{{'Send Command...'|translate}}" style="width: 250px;" ng-model="command" ng-keydown="handleKeyDown($event)" ng-keyup="handleKeyUp($event)">
+                                <button data-ng-click="sendCommand()" class="btn btn-success" translate>Send</button>
+                                    &nbsp;&nbsp;
+                                <label><input type="checkbox" ng-model="autoscrollEnabled"> <span translate>Autoscroll</span></label>&nbsp;&nbsp;
+                                <label><input type="checkbox" ng-model="filterOutput" ng-change='onFilterChange()'> <span translate>Filter temperatures</span></label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -177,6 +188,7 @@
     <script src="lib/angular/angular.min.js"></script>
     <!--removeIf(production)-->
     <script src="lib/angular-mocks/angular-mocks.js"></script>
+    <script src="lib/angularjs-scroll-glue-Luegg/src/scrollglue.js"></script>
     <!--endRemoveIf(production)-->
     <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
@@ -193,6 +205,7 @@
     <script src="js/controllers/fileController.js"></script>
     <script src="js/controllers/commandController.js"></script>
     <script src="js/services/dataService.js"></script>
+    <script src="js/services/sharedService.js"></script>
     <!--endRemoveIf(production)-->
 </body>
 </html>
