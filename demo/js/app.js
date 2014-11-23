@@ -132,7 +132,8 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
         }
 
         $scope.clear = function () {
-            $scope.commandOutput = "";
+            $scope.log = [];
+            $scope.updateOutput();
         }
 
         $scope.onFilterChange = function () {
