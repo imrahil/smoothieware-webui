@@ -1,22 +1,32 @@
 var gulp = require('gulp')
+var gulpif = require('gulp-if');
 var concat = require('gulp-concat')
 var cdnizer = require("gulp-cdnizer");
 var removeCode = require('gulp-remove-code');
 var del = require('del');
 
-gulp.task('clean', function() {
-  del(['dist']);
+var demoMode = false;
+
+gulp.task('clean', function () {
+    del(['dist']);
 });
 
 gulp.task('js', function () {
-    gulp.src(['www/js/**/app.js', 'www/js/**/translations.js', 'www/js/controllers/**/*.js', 'www/js/services/**/*.js', 'www/lib/angularjs-scroll-glue-Luegg/src/**/scrollglue.js'])
+    var src = ['www/js/**/app.js', 'www/js/**/translations.js', 'www/js/controllers/**/*.js', 'www/js/services/**/*.js', 'www/lib/angularjs-scroll-glue-Luegg/src/scrollglue.js'];
+
+    if (demoMode) {
+        src = src.concat('www/lib/angular-mocks/**/angular-mocks.js');
+    }
+
+    gulp.src(src)
         .pipe(concat('app.js'))
-        .pipe(removeCode({ production: true }))
+        .pipe(gulpif(!demoMode, removeCode({production: true})))
         .pipe(gulp.dest('dist/js'))
 })
+
 gulp.task('stuff', function () {
     gulp.src(['www/index.html'])
-        .pipe(removeCode({ production: true }))
+        .pipe(removeCode({production: true}))
         .pipe(cdnizer([{
             file: 'lib/bootstrap-css-only/css/bootstrap.min.css',
             cdn: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'
@@ -50,3 +60,8 @@ gulp.task('css', function () {
 })
 
 gulp.task('default', ['clean', 'js', 'stuff', 'css']);
+
+gulp.task('demo', function () {
+    demoMode = true;
+    gulp.start('default');
+})
