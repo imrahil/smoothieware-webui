@@ -69,7 +69,8 @@
         }
 
         $scope.clear = function () {
-            $scope.commandOutput = "";
+            $scope.log = [];
+            $scope.updateOutput();
         }
 
         $scope.onFilterChange = function () {
