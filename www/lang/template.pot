@@ -5,75 +5,62 @@ msgstr ""
 "Project-Id-Version: \n"
 
 #: dist/index.html
-#: www/index.html
 msgid "Abort"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Autoscroll"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Bed"
 msgstr ""
 
-#: www/index.html
+#: dist/index.html
 msgid "Clear"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Commands"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Controls"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Extrude"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Extruder T0"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Extruder T1"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Extruders"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Files"
 msgstr ""
 
-#: www/index.html
+#: dist/index.html
 msgid "Filter temperatures"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Get temperature"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Heater T0"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Heater T1"
 msgstr ""
 
@@ -83,42 +70,34 @@ msgid "Language:"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Motors off"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Name"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Options"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Print"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Progress"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Refresh"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Reverse"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Send"
 msgstr ""
 
@@ -128,26 +107,21 @@ msgid "Send Command..."
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Settings"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Speed:"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Temperatures"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Upload"
 msgstr ""
 
 #: dist/index.html
-#: www/index.html
 msgid "Value | Target"
 msgstr ""

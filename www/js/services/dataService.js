@@ -1,26 +1,35 @@
 (function () {
+    'use strict';
 
-    var injectParams = ['$http', '$q'];
+    angular
+        .module('smoothieApp')
+        .factory('DataService', DataService);
 
-    var dataService = function ($http, $q) {
-        var factory = {};
+    DataService.$inject = ['$http', '$rootScope'];
 
-        factory.runCommand = function (cmd) {
-            var url = "/command";
+    function DataService($http, $rootScope) {
+        var url = "/command";
+
+        var service = {
+            runCommand: runCommand,
+            broadcastItem: broadcastItem
+        };
+
+        return service;
+
+        ////////////
+
+        function runCommand(cmd) {
             cmd += "\n";
 
             return $http.post(url, cmd)
-                .then(
-                    function (results) {
-                        return results.data;
-                    }
-                );
-        };
+                .then(function (response) {
+                    return response.data;
+                });
+        }
 
-        return factory;
-    };
-
-    dataService.$inject = injectParams;
-
-    angular.module('smoothieApp').factory('dataService', dataService);
-}());
+        function broadcastItem(msg) {
+            $rootScope.$broadcast('handleBroadcast', msg);
+        }
+    }
+})();

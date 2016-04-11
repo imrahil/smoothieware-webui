@@ -1,12 +1,19 @@
 (function () {
+    'use strict';
 
-    var injectParams = ['$scope', 'gettextCatalog'];
+    angular
+        .module('smoothieApp')
+        .controller('HeaderCtrl', HeaderCtrl);
 
-    var HeaderCtrl = function ($scope, gettextCatalog) {
-        $scope.your_printer_name = "Topweight Hardware";
+    HeaderCtrl.$inject = ['gettextCatalog'];
+
+    function HeaderCtrl(gettextCatalog) {
+        var vm = this;
+
+        vm.your_printer_name = "Topweight Hardware";
 
         // Language switcher
-        $scope.languages = {
+        vm.languages = {
             current: gettextCatalog.currentLanguage,
             available: {
                 //'de': 'German',
@@ -15,14 +22,13 @@
             }
         };
 
-        $scope.setLanguage = function (item)
-        {
-            $scope.languages.current = item;
+        vm.setLanguage = setLanguage;
+
+        ////////////////
+
+        function setLanguage(item) {
+            vm.languages.current = item;
             gettextCatalog.setCurrentLanguage(item);
-        };
-    };
-
-    HeaderCtrl.$inject = injectParams;
-
-    angular.module('smoothieApp').controller('HeaderCtrl', HeaderCtrl);
-}());
+        }
+    }
+})();

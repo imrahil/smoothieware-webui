@@ -1,29 +1,35 @@
 (function () {
+    'use strict';
 
-    var injectParams = ['$scope', 'dataService'];
+    angular
+        .module('smoothieApp')
+        .controller('ExtruderCtrl', ExtruderCtrl);
 
-    var ExtruderCtrl = function ($scope, dataService) {
+    ExtruderCtrl.$inject = ['DataService'];
 
-        $scope.filamenLength = 5;
-        $scope.velocity = 100;
+    function ExtruderCtrl(DataService) {
+        var vm = this;
 
-        $scope.extrude = function (extruder, direction) {
-            console.log('Extruder: ' + extruder + ' | length: ' + $scope.filamenLength + ' | speed: ' + $scope.velocity);
+        vm.filamenLength = 5;
+        vm.velocity = 100;
 
-            dataService.runCommand(extruder)
+        vm.extrude = extrude;
+        
+        ////////////////
+        
+        function extrude(extruder, direction) {
+            console.log('Extruder: ' + extruder + ' | length: ' + vm.filamenLength + ' | speed: ' + vm.velocity);
+
+            DataService.runCommand(extruder)
                 .then(function (result) {
                     console.log('Extruder result: ' + result);
                 });
 
-            dataService.runCommand("G91 G0 E" + ($scope.filamenLength * direction) + " F" + $scope.velocity + " G90")
+            DataService.runCommand("G91 G0 E" + (vm.filamenLength * direction) + " F" + vm.velocity + " G90")
                 .then(function (result) {
                     console.log('Command result: ' + result);
                 });
 
         }
-    };
-
-    ExtruderCtrl.$inject = injectParams;
-
-    angular.module('smoothieApp').controller('ExtruderCtrl', ExtruderCtrl);
+    }
 }());

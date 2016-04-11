@@ -1,67 +1,98 @@
-var gulp = require('gulp')
-var gulpif = require('gulp-if');
-var concat = require('gulp-concat')
-var cdnizer = require("gulp-cdnizer");
-var removeCode = require('gulp-remove-code');
-var del = require('del');
+var gulp = require('gulp'),
+    jshint = require('gulp-jshint'),
+    gulpif = require('gulp-if'),
+    concat = require('gulp-concat'),
+    uglify = require('gulp-uglify'),
+    ngAnnotate = require('gulp-ng-annotate'),
+    bytediff = require('gulp-bytediff'),
+    cdnizer = require("gulp-cdnizer"),
+    removeCode = require('gulp-remove-code'),
+    merge = require('merge-stream'),
+    del = require('del');
 
 var demoMode = false;
 
-gulp.task('clean', function () {
-    del(['dist']);
-});
+function clean() {
+    return del(['dist']);
+}
 
-gulp.task('js', function () {
-    var src = ['www/js/**/app.js', 'www/js/**/translations.js', 'www/js/controllers/**/*.js', 'www/js/services/**/*.js', 'www/lib/angularjs-scroll-glue-Luegg/src/scrollglue.js'];
+function cleanDemo() {
+    demoMode = true;
+    return del(['dist']);
+}
+
+function lint() {
+    return gulp.src('www/js/**/app.js', 'www/js/**/translations.js', 'www/js/controllers/**/*.js')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
+}
+
+function jsStuff() {
+    var src = ['www/js/**/app.js', 'www/js/**/translations.js', 'www/js/controllers/**/*.js', 'www/js/services/**/*.js', 'www/lib/angular-scroll-glue/src/scrollglue.js'];
 
     if (demoMode) {
         src = src.concat('www/lib/angular-mocks/**/angular-mocks.js');
     }
 
-    gulp.src(src)
+    return gulp.src(src)
         .pipe(concat('app.js'))
         .pipe(gulpif(!demoMode, removeCode({production: true})))
-        .pipe(gulp.dest('dist/js'))
-})
+        .pipe(gulp.dest('dist/js'));
+}
 
-gulp.task('stuff', function () {
-    gulp.src(['www/index.html'])
-        .pipe(removeCode({production: true}))
-        .pipe(cdnizer([{
-            file: 'lib/bootstrap-css-only/css/bootstrap.min.css',
-            cdn: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'
-        }]))
-        .pipe(cdnizer([{
-            file: 'lib/angular/angular.min.js',
-            cdn: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js'
-        }]))
-        .pipe(cdnizer([{
-            file: 'lib/angular-sanitize/angular-sanitize.min.js',
-            cdn: '//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-sanitize.min.js'
-        }]))
-        .pipe(cdnizer([{
-            file: 'lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
-            cdn: '//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.2/ui-bootstrap-tpls.min.js'
-        }]))
-        .pipe(cdnizer([{
-            file: 'lib/angular-gettext/dist/angular-gettext.min.js',
-            cdn: 'https://raw.githubusercontent.com/rubenv/angular-gettext/master/dist/angular-gettext.min.js'
-        }]))
-        .pipe(gulp.dest('dist'))
+function stuff() {
+    return merge(
+        gulp.src(['www/index.html'])
+            .pipe(removeCode({production: true}))
+            .pipe(cdnizer([{
+                file: 'lib/bootstrap-css-only/css/bootstrap.min.css',
+                cdn: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'
+            }]))
+            .pipe(cdnizer([{
+                file: 'lib/angular/angular.min.js',
+                cdn: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js'
+            }]))
+            .pipe(cdnizer([{
+                file: 'lib/angular-sanitize/angular-sanitize.min.js',
+                cdn: 'http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular-sanitize.min.js'
+            }]))
+            .pipe(cdnizer([{
+                file: 'lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
+                cdn: 'http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.1/ui-bootstrap-tpls.min.js'
+            }]))
+            .pipe(cdnizer([{
+                file: 'lib/angular-gettext/dist/angular-gettext.min.js',
+                cdn: 'https://raw.githubusercontent.com/rubenv/angular-gettext/master/dist/angular-gettext.min.js'
+            }]))
+            .pipe(gulp.dest('dist')),
 
-    gulp.src(['www/css/**/*.css'])
-        .pipe(gulp.dest('dist/css'))
+        gulp.src(['www/css/**/*.css'])
+            .pipe(gulp.dest('dist/css')),
 
-    gulp.src(['www/img/**/*.*'])
-        .pipe(gulp.dest('dist/img'))
-})
+        gulp.src(['www/img/**/*.*'])
+            .pipe(gulp.dest('dist/img'))
+    )
+}
 
-gulp.task('css', function () {
-})
+function minifyApp() {
+    return gulp.src(['dist/js/app.js'])
+        .pipe(ngAnnotate({add: true}))
+        .pipe(bytediff.start())
+        .pipe(uglify({mangle: true}))
+        .pipe(bytediff.stop())
+        .pipe(gulp.dest('./dist/js/'))
+}
 
-gulp.task('default', ['clean', 'js', 'stuff', 'css']);
+gulp.task(clean);
+gulp.task(cleanDemo);
+gulp.task(lint);
+gulp.task(jsStuff);
+gulp.task(stuff);
+gulp.task(minifyApp);
 
-gulp.task('demo', function () {
-    demoMode = true;
-    gulp.start('default');
-})
+var defaultSeries = gulp.series(clean, lint, jsStuff, stuff, minifyApp);
+var demoSeries = gulp.series(cleanDemo, lint, jsStuff, stuff, minifyApp);
+
+gulp.task('default', defaultSeries);
+gulp.task('demo', demoSeries);
+

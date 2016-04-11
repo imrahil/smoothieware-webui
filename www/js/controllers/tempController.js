@@ -1,32 +1,42 @@
 (function () {
+    'use strict';
 
-    var injectParams = ['$scope', '$timeout', 'dataService', 'sharedService'];
+    angular
+        .module('smoothieApp')
+        .controller('TempCtrl', TempCtrl);
 
-    var TempCtrl = function ($scope, $timeout, dataService, sharedService) {
+    TempCtrl.$inject = ['$interval', 'DataService'];
 
-        $scope.heaterT0SelectedTemp = 0;
-        $scope.heaterT0ActualTemp = "-";
-        $scope.heaterT1SelectedTemp = 0;
-        $scope.heaterT1ActualTemp = "-";
-        $scope.bedSelectedTemp = 0;
-        $scope.bedActualTemp = "-";
+    function TempCtrl($interval, DataService) {
+        var vm = this;
 
-        var counter = 0;
+        vm.heaterT0SelectedTemp = 0;
+        vm.heaterT0ActualTemp = "-";
+        vm.heaterT1SelectedTemp = 0;
+        vm.heaterT1ActualTemp = "-";
+        vm.bedSelectedTemp = 0;
+        vm.bedActualTemp = "-";
 
-        $scope.onTimeout = function () {
-            counter++;
+        vm.onTimeout = onTimeout;
+        vm.heatOff = heatOff;
+        vm.heatSet = heatSet;
+        vm.getTemperatures = getTemperatures;
 
-            if (counter == 5) {
-                $scope.getTemperatures();
-                counter = 0;
-            }
+        activate();
 
-            mytimeout = $timeout($scope.onTimeout, 1000);
+        ////////////////
+
+        function activate() {
+            $interval(vm.onTimeout, 3000);
+
+            vm.getTemperatures();
         }
 
-        var mytimeout = $timeout($scope.onTimeout, 1000);
+        function onTimeout() {
+            vm.getTemperatures();
+        }
 
-        $scope.heatOff = function(heater) {
+        function heatOff(heater) {
             console.log('HeatOff - heater: ' + heater);
 
             var isHeater = (heater != 'bed');
@@ -39,15 +49,15 @@
                 command += " " + heater;
             }
 
-            dataService.runCommand(command)
+            DataService.runCommand(command)
                 .then(function (result) {
-                    console.log('Result: ' + result);
+                    //console.log('Result: ' + result);
 
-                    $scope.getTemperatures();
+                    vm.getTemperatures();
                 });
         }
 
-        $scope.heatSet = function(heater, selectedTemp) {
+        function heatSet(heater, selectedTemp) {
             console.log('HeatSet - heater: ' + heater + ' | temp: ' + selectedTemp);
 
             var isHeater = (heater != 'bed');
@@ -60,18 +70,19 @@
                 command += " " + heater;
             }
 
-            dataService.runCommand(command)
+            DataService.runCommand(command)
                 .then(function (result) {
-                    console.log('Result: ' + result);
+                    //console.log('Result: ' + result);
 
-                    $scope.getTemperatures();
+                    vm.getTemperatures();
                 });
         }
 
-        $scope.getTemperatures = function () {
-            dataService.runCommand("M105")
+        function getTemperatures() {
+            DataService.runCommand("M105")
                 .then(function (result_data) {
-                    sharedService.prepForBroadcast(result_data);
+                    //console.log('Result: ' + result_data);
+                    DataService.broadcastItem(result_data);
 
                     var regex_temp = /(B|T(\d*)):\s*([+]?[0-9]*\.?[0-9]+)? (\/)([+]?[0-9]*\.?[0-9]+)?/gi;
                     var result;
@@ -82,22 +93,18 @@
                         value += " | " + result[5] + "°C";
 
                         if (tool == "T") {
-                            $scope.heaterT0ActualTemp = value;
+                            vm.heaterT0ActualTemp = value;
                         }
                         else if (tool == "T1") {
-                            $scope.heaterT1ActualTemp = value;
+                            vm.heaterT1ActualTemp = value;
                         }
                         if (tool == "B") {
-                            $scope.bedActualTemp = value;
+                            vm.bedActualTemp = value;
                         }
                     }
                 }, function (error) {
                     console.error(error.statusText);
                 });
         }
-    };
-
-    TempCtrl.$inject = injectParams;
-
-    angular.module('smoothieApp').controller('TempCtrl', TempCtrl);
+    }
 }());

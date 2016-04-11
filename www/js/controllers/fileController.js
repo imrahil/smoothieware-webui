@@ -1,60 +1,82 @@
 (function () {
+    'use strict';
 
-    var injectParams = ['$scope', 'dataService', 'sharedService'];
+    angular
+        .module('smoothieApp')
+        .controller('FileCtrl', FileCtrl);
 
-    var FileCtrl = function ($scope, dataService, sharedService) {
+    FileCtrl.$inject = ['DataService'];
 
-        $scope.fileList = [];
+    function FileCtrl(DataService) {
+        var vm = this;
 
-        $scope.refreshFiles = function () {
+        vm.fileList = [];
+
+        vm.refreshFiles = refreshFiles;
+        vm.parseFilelist = parseFilelist;
+        vm.print = print;
+        vm.progress = progress;
+        vm.abort = abort;
+        vm.upload = upload;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+            refreshFiles();
+        }
+
+        function refreshFiles() {
             console.log('RefreshFiles');
 
-            dataService.runCommand("M20")
+            DataService.runCommand("M20")
                 .then(function (result_data) {
-                    $scope.parseFilelist(result_data);
+                    vm.parseFilelist(result_data);
                 }, function (error) {
                     console.error(error.statusText);
                 });
         }
 
-        $scope.parseFilelist = function (rawdata) {
-            $scope.fileList = [];
+        function parseFilelist(rawdata) {
+            vm.fileList = [];
             var list = rawdata.split('\n');
             angular.forEach(list, function(value, key) {
                 value = value.trim();
                 if (value.match(/\.g(code)?$/)) {
-                    $scope.fileList.push(value);
+                    vm.fileList.push(value);
                 }
             });
         }
 
-        $scope.print = function (file) {
-            dataService.runCommand("play /sd/" + file)
+        function print(file) {
+            console.log('print file - ' + file);
+
+            DataService.runCommand("play /sd/" + file)
                 .then(function (result) {
                     console.log('Result: ' + result);
                 });
         }
 
-        $scope.progress = function () {
-            dataService.runCommand("progress")
+        function progress() {
+            DataService.runCommand("progress")
                 .then(function (result_data) {
-                    sharedService.prepForBroadcast(result_data);
+                    DataService.broadcastItem(result_data);
                 }, function (error) {
                     console.error(error.statusText);
                 });
         }
 
-        $scope.abort = function () {
-            dataService.runCommand("abort")
+        function abort() {
+            DataService.runCommand("abort")
                 .then(function (result_data) {
-                    sharedService.prepForBroadcast(result_data);
+                    DataService.broadcastItem(result_data);
                 }, function (error) {
                     console.error(error.statusText);
                 });
         }
-    };
 
-    FileCtrl.$inject = injectParams;
-
-    angular.module('smoothieApp').controller('FileCtrl', FileCtrl);
+        function upload() {
+        }
+    }
 }());

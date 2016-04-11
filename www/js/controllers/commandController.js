@@ -1,53 +1,68 @@
 (function () {
+    'use strict';
 
-    var injectParams = ['$scope', 'dataService', 'sharedService'];
+    angular
+        .module('smoothieApp')
+        .controller('CommandCtrl', CommandCtrl);
 
-    var CommandCtrl = function ($scope, dataService, sharedService) {
+    CommandCtrl.$inject = ['$scope', 'DataService'];
 
-        $scope.log = [];
+    function CommandCtrl($scope, DataService) {
+        var vm = this;
 
-        $scope.command = "";
-        $scope.commandOutput = "";
-        $scope.cmdHistory = [];
-        $scope.cmdHistoryIdx = -1;
+        vm.log = [];
 
-        $scope.autoscrollEnabled = true;
-        $scope.filterOutput = false;
+        vm.command = "";
+        vm.commandOutput = "";
+        vm.cmdHistory = [];
+        vm.cmdHistoryIdx = -1;
 
-        $scope.$on('handleBroadcast', function () {
-            $scope.updateOutput(sharedService.message);
+        vm.autoscrollEnabled = true;
+        vm.filterOutput = false;
+
+        vm.sendCommand = sendCommand;
+        vm.handleKeyDown = handleKeyDown;
+        vm.handleKeyUp = handleKeyUp;
+        vm.clear = clear;
+        vm.onFilterChange = onFilterChange;
+        vm.updateOutput = updateOutput;
+
+        ////////////////
+
+        $scope.$on('handleBroadcast', function (events, args) {
+            vm.updateOutput(args);
         });
 
-        $scope.sendCommand = function () {
-            if (!$scope.command) {
+        function sendCommand() {
+            if (!vm.command) {
                 return;
             }
 
-            console.log('Command: ' + $scope.command);
+            console.log('Command: ' + vm.command);
 
-            dataService.runCommand($scope.command)
+            DataService.runCommand(vm.command)
                 .then(function (result_data) {
-                    $scope.updateOutput(result_data);
+                    vm.updateOutput(result_data);
 
-                    $scope.cmdHistory.push($scope.command);
-                    $scope.cmdHistory.slice(-300); // just to set a sane limit to how many manually entered commands will be saved...
-                    $scope.cmdHistoryIdx = $scope.cmdHistory.length;
-                    $scope.command = "";
+                    vm.cmdHistory.push(vm.command);
+                    vm.cmdHistory.slice(-300); // just to set a sane limit to how many manually entered commands will be saved...
+                    vm.cmdHistoryIdx = vm.cmdHistory.length;
+                    vm.command = "";
                 });
         }
 
-        $scope.handleKeyDown = function (keyEvent) {
+        function handleKeyDown(keyEvent) {
             var keyCode = keyEvent.keyCode;
 
             if (keyCode == 38 || keyCode == 40) {
-                if (keyCode == 38 && $scope.cmdHistory.length > 0 && $scope.cmdHistoryIdx > 0) {
-                    $scope.cmdHistoryIdx--;
-                } else if (keyCode == 40 && $scope.cmdHistoryIdx < $scope.cmdHistory.length - 1) {
-                    $scope.cmdHistoryIdx++;
+                if (keyCode == 38 && vm.cmdHistory.length > 0 && vm.cmdHistoryIdx > 0) {
+                    vm.cmdHistoryIdx--;
+                } else if (keyCode == 40 && vm.cmdHistoryIdx < vm.cmdHistory.length - 1) {
+                    vm.cmdHistoryIdx++;
                 }
 
-                if ($scope.cmdHistoryIdx >= 0 && $scope.cmdHistoryIdx < $scope.cmdHistory.length) {
-                    $scope.command = ($scope.cmdHistory[$scope.cmdHistoryIdx]);
+                if (vm.cmdHistoryIdx >= 0 && vm.cmdHistoryIdx < vm.cmdHistory.length) {
+                    vm.command = (vm.cmdHistory[vm.cmdHistoryIdx]);
                 }
 
                 // prevent the cursor from being moved to the beginning of the input field (this is actually the reason
@@ -60,46 +75,42 @@
             return true;
         }
 
-        $scope.handleKeyUp = function (keyEvent) {
+        function handleKeyUp(keyEvent) {
             if (keyEvent.keyCode == 13) {
-                $scope.sendCommand();
+                vm.sendCommand();
             }
 
             return true;
         }
 
-        $scope.clear = function () {
-            $scope.log = [];
-            $scope.updateOutput();
+        function clear() {
+            vm.log = [];
+            vm.updateOutput();
         }
 
-        $scope.onFilterChange = function () {
-            $scope.updateOutput();
-        };
+        function onFilterChange() {
+            vm.updateOutput();
+        }
 
-        $scope.updateOutput = function (message) {
-            if (!$scope.log)
-                $scope.log = [];
+        function updateOutput(message) {
+            if (!vm.log)
+                vm.log = [];
 
             if (message) {
-                $scope.log = $scope.log.concat(message);
-                $scope.log = $scope.log.slice(-300);
+                vm.log = vm.log.concat(message);
+                vm.log = vm.log.slice(-300);
             }
 
             var regex = /ok T:/g;
 
             var output = "";
-            var logLength = $scope.log.length;
+            var logLength = vm.log.length;
             for (var i = 0; i < logLength; i++) {
-                if ($scope.filterOutput && $scope.log[i].match(regex)) continue;
-                output += $scope.log[i] + "\n";
+                if (vm.filterOutput && vm.log[i].match(regex)) continue;
+                output += vm.log[i] + "\n";
             }
 
-            $scope.commandOutput = output;
-        };
-    };
-
-    CommandCtrl.$inject = injectParams;
-
-    angular.module('smoothieApp').controller('CommandCtrl', CommandCtrl);
+            vm.commandOutput = output;
+        }
+    }
 }());

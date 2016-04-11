@@ -1,21 +1,35 @@
 (function () {
+    'use strict';
 
-    var injectParams = ['$scope', 'dataService'];
+    angular
+        .module('smoothieApp')
+        .controller('MotorCtrl', MotorCtrl);
 
-    var MotorCtrl = function ($scope, dataService) {
+    MotorCtrl.$inject = ['DataService'];
 
-        $scope.elementId = "";
-        $scope.xy_velocity = 3000;
-        $scope.z_velocity = 200;
+    function MotorCtrl(DataService) {
+        var vm = this;
 
-        $scope.homeAxis = function (axis) {
+        vm.elementId = "";
+        vm.xy_velocity = 3000;
+        vm.z_velocity = 200;
+
+        vm.homeAxis = homeAxis;
+        vm.motorsOff = motorsOff;
+        vm.jogButtonClick = jogButtonClick;
+        vm.jogXYClick = jogXYClick;
+        vm.jogZClick = jogZClick;
+
+        ////////////////
+
+        function homeAxis(axis) {
             console.log('Home axis: ' + axis);
         }
 
-        $scope.motorsOff = function () {
+        function motorsOff() {
             console.log('MotorsOff');
 
-            dataService.runCommand("M18")
+            DataService.runCommand("M18")
                 .then(function (result) {
                     console.log('Motors turned off! - Result: ' + result);
                 }, function (error) {
@@ -23,44 +37,37 @@
                 });
         }
 
-        $scope.jogButtonClick = function (cmd)
-        {
+        function jogButtonClick(cmd) {
             console.log('jogButtonClick - ' + cmd);
 
-            dataService.runCommand(cmd)
+            DataService.runCommand(cmd)
                 .then(function (result) {
-                    console.log('Result: ' + result)
+                    console.log('Result: ' + result);
                 }, function (error) {
                     console.error(error.statusText);
                 });
-        };
+        }
 
-        $scope.jogXYClick = function (cmd)
-        {
+        function jogXYClick(cmd) {
             console.log('jogXYClick - ' + cmd);
 
-            dataService.runCommand("G91 G0 " + cmd + " F" + $scope.xy_velocity + " G90")
+            DataService.runCommand("G91 G0 " + cmd + " F" + vm.xy_velocity + " G90")
                 .then(function (result) {
                     console.log('Result: ' + result);
                 }, function (error) {
                     console.error(error.statusText);
                 });
-        };
+        }
 
-        $scope.jogZClick = function (cmd)
-        {
+        function jogZClick(cmd) {
             console.log('jogZClick - ' + cmd);
 
-            dataService.runCommand("G91 G0 " + cmd + " F" + $scope.z_velocity + " G90")
+            DataService.runCommand("G91 G0 " + cmd + " F" + vm.z_velocity + " G90")
                 .then(function (result) {
                     console.log('Result: ' + result);
                 }, function (error) {
                     console.error(error.statusText);
                 });
-        };
-    };
-
-    MotorCtrl.$inject = injectParams;
-
-    angular.module('smoothieApp').controller('MotorCtrl', MotorCtrl);
+        }
+    }
 }());
