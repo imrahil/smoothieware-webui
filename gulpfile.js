@@ -8,7 +8,8 @@ var gulp = require('gulp'),
     cdnizer = require("gulp-cdnizer"),
     removeCode = require('gulp-remove-code'),
     merge = require('merge-stream'),
-    del = require('del');
+    del = require('del'),
+    zip = require('gulp-zip');
 
 var demoMode = false;
 
@@ -83,6 +84,12 @@ function minifyApp() {
         .pipe(gulp.dest('./dist/js/'))
 }
 
+function compress() {
+    return gulp.src('dist/**/*')
+        .pipe(zip('dist.zip'))
+        .pipe(gulp.dest('.'));
+}
+
 gulp.task(clean);
 gulp.task(cleanDemo);
 gulp.task(lint);
@@ -91,8 +98,10 @@ gulp.task(stuff);
 gulp.task(minifyApp);
 
 var defaultSeries = gulp.series(clean, lint, jsStuff, stuff, minifyApp);
+var packageSeries = gulp.series(clean, lint, jsStuff, stuff, minifyApp, compress);
 var demoSeries = gulp.series(cleanDemo, lint, jsStuff, stuff, minifyApp);
 
 gulp.task('default', defaultSeries);
 gulp.task('demo', demoSeries);
+gulp.task('package', packageSeries);
 

@@ -12,7 +12,7 @@
     RunBlock.$inject = ['gettextCatalog', '$httpBackend'];
 
     function RunBlock(gettextCatalog, $httpBackend) {
-        gettextCatalog.setCurrentLanguage('pl');
+        gettextCatalog.setCurrentLanguage('en');
         gettextCatalog.debug = true;
 
         //removeIf(production)
