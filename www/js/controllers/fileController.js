@@ -5,19 +5,20 @@
         .module('smoothieApp')
         .controller('FileCtrl', FileCtrl);
 
-    FileCtrl.$inject = ['DataService'];
+    FileCtrl.$inject = ['DataService', 'Upload'];
 
-    function FileCtrl(DataService) {
+    function FileCtrl(DataService, Upload) {
         var vm = this;
 
         vm.fileList = [];
+        vm.currentUploadedFile = {};
 
         vm.refreshFiles = refreshFiles;
-        vm.parseFilelist = parseFilelist;
         vm.print = print;
         vm.progress = progress;
         vm.abort = abort;
-        vm.upload = upload;
+        vm.uploadFile = uploadFile;
+        vm.deleteFile = deleteFile;
 
         activate();
 
@@ -32,7 +33,7 @@
 
             DataService.runCommand("M20")
                 .then(function (result_data) {
-                    vm.parseFilelist(result_data);
+                    parseFilelist(result_data);
                 }, function (error) {
                     console.error(error.statusText);
                 });
@@ -44,7 +45,8 @@
             angular.forEach(list, function(value, key) {
                 value = value.trim();
                 if (value.match(/\.g(code)?$/)) {
-                    vm.fileList.push(value);
+                    var file = {filename: value, uploading: false, percentage: 0};
+                    vm.fileList.push(file);
                 }
             });
         }
@@ -76,7 +78,40 @@
                 });
         }
 
-        function upload() {
+        function uploadFile(file) {
+            if (file) {
+                DataService.broadcastItem("Uploading: " + file.name + "\n");
+
+                vm.currentUploadedFile = {filename: file.name, uploading: true, percentage: 0};
+                vm.fileList.push(vm.currentUploadedFile);
+
+                Upload.upload({
+                    url: '/upload',
+                    headers: {
+                        'X-Filename': file.name
+                    },
+                    data: {file: file}
+                }).then(function (resp) {
+                    console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data);
+                    vm.currentUploadedFile.uploading = false;
+                }, function (resp) {
+                    DataService.broadcastItem('Error status: ' + resp.status + "\n");
+                }, function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    vm.currentUploadedFile.percentage = progressPercentage;
+                    console.log('Progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                });
+            }
+        }
+
+        function deleteFile(file) {
+            DataService.runCommand("M30 " + file.filename)
+                .then(function (result_data) {
+                    DataService.broadcastItem("Deleted file: " + file.filename + "\n");
+                    vm.refreshFiles();
+                }, function (error) {
+                    console.error(error.statusText);
+                });
         }
     }
 }());

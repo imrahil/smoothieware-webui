@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('smoothieApp', ['ui.bootstrap', 'gettext', 'ngSanitize', 'luegg.directives', 'xeditable', 'LocalStorageModule',
+        .module('smoothieApp', ['ui.bootstrap', 'gettext', 'ngSanitize', 'luegg.directives', 'xeditable', 'LocalStorageModule', 'ngFileUpload',
             //removeIf(production)
             'ngMockE2E'
             //endRemoveIf(production)
@@ -38,7 +38,7 @@
                 var heaterT1ActualTemp = (rand + 10);
                 var bedActualTemp = (rand + 8);
 
-                result = "ok T:" + heaterT0ActualTemp + " /0.0 @0 T1:" + heaterT1ActualTemp + " /0.0 @0 B:" + bedActualTemp + " /0.0 @0 P:29.7 /0.0 @0";
+                result = "ok T:" + heaterT0ActualTemp + " /0.0 @0 T1:" + heaterT1ActualTemp + " /0.0 @0 B:" + bedActualTemp + " /0.0 @0 P:29.7 /0.0 @0\n";
             } else if (data == "M20") {
                 rand = Math.floor((Math.random() * 2) * 10 + 1);
 

@@ -13,6 +13,7 @@ var gulp = require('gulp'),
     zip = require('gulp-zip');
 
 var demoMode = false;
+var testMode = false;
 
 function clean() {
     return del(['dist']);
@@ -20,6 +21,11 @@ function clean() {
 
 function cleanDemo() {
     demoMode = true;
+    return del(['dist']);
+}
+
+function cleanTest() {
+    testMode = true;
     return del(['dist']);
 }
 
@@ -43,11 +49,27 @@ function cdnizeAndCopy() {
             }]))
             .pipe(cdnizer([{
                 file: 'lib/angular-sanitize/angular-sanitize.min.js',
-                cdn: 'http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular-sanitize.min.js'
+                cdn: 'https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.3/angular-sanitize.min.js'
             }]))
             .pipe(cdnizer([{
                 file: 'lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
-                cdn: 'http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.1/ui-bootstrap-tpls.min.js'
+                cdn: 'https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.1/ui-bootstrap-tpls.min.js'
+            }]))
+            .pipe(cdnizer([{
+                file: 'lib/angular-gettext/dist/angular-gettext.min.js',
+                cdn: 'https://cdnjs.cloudflare.com/ajax/libs/angular-gettext/2.2.1/angular-gettext.min.js'
+            }]))
+            .pipe(cdnizer([{
+                file: 'lib/angular-xeditable/dist/js/xeditable.min.js',
+                cdn: 'https://cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.1.11/js/xeditable.min.js'
+            }]))
+            .pipe(cdnizer([{
+                file: 'lib/angular-local-storage/dist/angular-local-storage.min.js',
+                cdn: 'https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.7/angular-local-storage.min.js'
+            }]))
+            .pipe(cdnizer([{
+                file: 'lib/ng-file-upload/ng-file-upload.min.js',
+                cdn: 'https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.0.4/ng-file-upload.min.js'
             }]))
             .pipe(gulp.dest('dist')),
 
@@ -63,6 +85,10 @@ function concatApp() {
         src = src.concat('www/lib/angular-mocks/**/angular-mocks.js');
     }
 
+    if (testMode) {
+        src = src.concat('!www/js/controllers/fileController.js');
+    }
+
     return merge(
         gulp.src(src)
             .pipe(concat('app.js'))
@@ -73,15 +99,6 @@ function concatApp() {
             .pipe(concat('style.css'))
             .pipe(gulp.dest('./dist/css/'))
     )
-}
-
-function concatLibs() {
-    var src = ['www/lib/angular-gettext/dist/angular-gettext.min.js', 'www/lib/angular-xeditable/dist/js/xeditable.min.js', 'www/lib/angular-local-storage/dist/angular-local-storage.min.js',
-        'dist/js/**/app.js'];
-
-    return gulp.src(src)
-        .pipe(concat('app.js'))
-        .pipe(gulp.dest('dist/js'));
 }
 
 function minifyApp() {
@@ -108,19 +125,28 @@ function compress() {
         .pipe(gulp.dest('.'));
 }
 
+function concatTest() {
+    return gulp.src(['dist/js/app.js', 'www/js/controllers/fileController.js'])
+        .pipe(concat('app.js'))
+        .pipe(gulp.dest('./dist/js/'))
+}
+
 gulp.task(clean);
 gulp.task(cleanDemo);
+gulp.task(cleanTest);
 gulp.task(lint);
 gulp.task(cdnizeAndCopy);
 gulp.task(concatApp);
+gulp.task(concatTest);
 gulp.task(minifyApp);
-gulp.task(concatLibs);
 
-var defaultSeries = gulp.series(clean, lint, cdnizeAndCopy, concatApp, minifyApp, concatLibs);
-var packageSeries = gulp.series(clean, lint, cdnizeAndCopy, concatApp, minifyApp, concatLibs, compress);
-var demoSeries = gulp.series(cleanDemo, lint, cdnizeAndCopy, concatApp, minifyApp, concatLibs);
+var defaultSeries = gulp.series(clean, lint, cdnizeAndCopy, concatApp, minifyApp);
+var packageSeries = gulp.series(clean, lint, cdnizeAndCopy, concatApp, minifyApp, compress);
+var demoSeries = gulp.series(cleanDemo, lint, cdnizeAndCopy, concatApp, minifyApp);
+var testSeries = gulp.series(cleanTest, lint, cdnizeAndCopy, concatApp, minifyApp, concatTest);
 
 gulp.task('default', defaultSeries);
 gulp.task('demo', demoSeries);
 gulp.task('package', packageSeries);
+gulp.task('test', testSeries);
 

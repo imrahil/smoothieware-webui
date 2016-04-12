@@ -107,7 +107,7 @@
             var logLength = vm.log.length;
             for (var i = 0; i < logLength; i++) {
                 if (vm.filterOutput && vm.log[i].match(regex)) continue;
-                output += vm.log[i] + "\n";
+                output += vm.log[i];
             }
 
             vm.commandOutput = output;

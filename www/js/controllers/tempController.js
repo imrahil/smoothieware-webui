@@ -5,10 +5,14 @@
         .module('smoothieApp')
         .controller('TempCtrl', TempCtrl);
 
-    TempCtrl.$inject = ['$interval', 'DataService'];
+    TempCtrl.$inject = ['$interval', 'DataService', 'localStorageService'];
 
-    function TempCtrl($interval, DataService) {
+    function TempCtrl($interval, DataService, localStorageService) {
         var vm = this;
+
+        vm.localTempInterval = {};
+        vm.tempInterval = localStorageService.get('tempInterval') || 3;
+        vm.autoCheckEnabled = localStorageService.get('autoCheckEnabled') == "true";
 
         vm.heaterT0SelectedTemp = 0;
         vm.heaterT0ActualTemp = "-";
@@ -20,6 +24,8 @@
         vm.onTimeout = onTimeout;
         vm.heatOff = heatOff;
         vm.heatSet = heatSet;
+        vm.onAutoCheckChange = onAutoCheckChange;
+        vm.onTempIntervalChange = onTempIntervalChange;
         vm.getTemperatures = getTemperatures;
 
         activate();
@@ -27,9 +33,10 @@
         ////////////////
 
         function activate() {
-            $interval(vm.onTimeout, 3000);
-
-            vm.getTemperatures();
+            if (vm.autoCheckEnabled) {
+                vm.localTempInterval = $interval(vm.onTimeout, vm.tempInterval * 1000);
+                vm.getTemperatures();
+            }
         }
 
         function onTimeout() {
@@ -76,6 +83,28 @@
 
                     vm.getTemperatures();
                 });
+        }
+
+        function onAutoCheckChange() {
+            if (vm.autoCheckEnabled) {
+                vm.localTempInterval = $interval(vm.onTimeout, vm.tempInterval * 1000);
+                localStorageService.set('autoCheckEnabled', "true");
+
+                vm.getTemperatures();
+            } else {
+                if (angular.isDefined(vm.localTempInterval))
+                    $interval.cancel(vm.localTempInterval);
+                localStorageService.set('autoCheckEnabled', "false");
+            }
+        }
+
+        function onTempIntervalChange() {
+            localStorageService.set('tempInterval', vm.tempInterval);
+
+            if (angular.isDefined(vm.localTempInterval))
+                $interval.cancel(vm.localTempInterval);
+
+            vm.localTempInterval = $interval(vm.onTimeout, vm.tempInterval * 1000);
         }
 
         function getTemperatures() {

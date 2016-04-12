@@ -29,3 +29,7 @@ a.editable-click {
 .editable-wrap {
     margin-top: 10px;
 }
+
+.progress {
+    margin-bottom: 0;
+}

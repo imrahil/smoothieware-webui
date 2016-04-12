@@ -15,9 +15,8 @@ module.exports = function(grunt) {
                 },
                 files: {
                     'www/lang/template.pot': [
-                            '**/*.html',
-                            '**/*.aspx',
-                            '**/langkeys.js' ]
+                            'www/**/*.html'
+                    ]
                 }
             }
         },
