@@ -20,3 +20,12 @@
 label {
     font-weight: normal;
 }
+
+a.editable-click {
+    border-bottom: none;
+    padding-left: 0;
+}
+
+.editable-wrap {
+    margin-top: 10px;
+}

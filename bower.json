@@ -23,6 +23,8 @@
     "angular-mocks": "1.5.3",
     "angular-sanitize": "1.5.3",
     "bootstrap-css-only": "~3.3.6",
-    "angular-scroll-glue": "^2.0.6"
+    "angular-scroll-glue": "^2.0.6",
+    "angular-xeditable": "^0.1.11",
+    "angular-local-storage": "^0.2.7"
   }
 }

@@ -2,18 +2,27 @@
     'use strict';
 
     angular
-        .module('smoothieApp', ['ui.bootstrap', 'gettext', 'ngSanitize', 'luegg.directives',
+        .module('smoothieApp', ['ui.bootstrap', 'gettext', 'ngSanitize', 'luegg.directives', 'xeditable', 'LocalStorageModule',
             //removeIf(production)
             'ngMockE2E'
             //endRemoveIf(production)
             ])
+        .config(ConfigBlock)
         .run(RunBlock);
 
-    RunBlock.$inject = ['gettextCatalog', '$httpBackend'];
+    RunBlock.$inject = ['gettextCatalog', 'localStorageService', 'editableOptions', '$httpBackend'];
+    ConfigBlock.$inject = ['localStorageServiceProvider'];
 
-    function RunBlock(gettextCatalog, $httpBackend) {
-        gettextCatalog.setCurrentLanguage('en');
+    function ConfigBlock(localStorageServiceProvider) {
+        localStorageServiceProvider.setPrefix('smoothieApp');
+    }
+
+    function RunBlock(gettextCatalog, localStorageService, editableOptions, $httpBackend) {
+        gettextCatalog.setCurrentLanguage(localStorageService.get('currentLanguage') || 'en');
         gettextCatalog.debug = true;
+
+        editableOptions.theme = 'bs3';
+        editableOptions.activate = 'select';
 
         //removeIf(production)
         $httpBackend.whenPOST('/command').respond(function (method, url, data) {
