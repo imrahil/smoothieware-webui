@@ -17,16 +17,8 @@ Known issues:
 
 - no file upload
 
+Release download:
+- v2.0-alpha - https://github.com/imrahil/smoothieware-webui/raw/2.0-alpha/dist.zip
+
 Screenshot - v 2.0-alpha
-![webUI](images/screenshot_v2_1.jpg?raw=true)
 ![webUI](images/screenshot_v2_2.jpg?raw=true)
-
-
-Screenshot - v 1.0
-![webUI](images/screenshot.jpg?raw=true)
-
-Useful commands
-- grunt install
-- npm install
-- grunt extract
-- grunt compile
