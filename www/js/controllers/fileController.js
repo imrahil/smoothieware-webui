@@ -85,21 +85,23 @@
                 vm.currentUploadedFile = {filename: file.name, uploading: true, percentage: 0};
                 vm.fileList.push(vm.currentUploadedFile);
 
-                Upload.upload({
+                Upload.http({
                     url: '/upload',
                     headers: {
                         'X-Filename': file.name
                     },
-                    data: {file: file}
+                    data: file
                 }).then(function (resp) {
-                    console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data);
+                    DataService.broadcastItem('Upload successful. Response: ' + resp.data);
                     vm.currentUploadedFile.uploading = false;
+
+                    vm.refreshFiles();
                 }, function (resp) {
                     DataService.broadcastItem('Error status: ' + resp.status + "\n");
                 }, function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     vm.currentUploadedFile.percentage = progressPercentage;
-                    console.log('Progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                    console.log('Progress: ' + progressPercentage + '%');
                 });
             }
         }
