@@ -3,11 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <title>Smoothieware WebUI</title>
-        <!-- Bootstrap Core CSS -->
+
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 
-        <!-- Custom CSS -->
-        <link href="css/sb-admin-2.css" rel="stylesheet">
+        
+
         <link href="css/style.css" rel="stylesheet">
     </head>
 
@@ -17,7 +17,7 @@
         <!-- navbar -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;" data-ng-controller="HeaderCtrl as headerVM">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">Smoothieware webUI - <span data-ng-bind="headerVM.your_printer_name"></span></a>
+                <a class="navbar-brand" href="index.html">Smoothieware webUI - </a><a class="navbar-brand" editable-text="headerVM.printerName" onaftersave="headerVM.updatePrinterName()" data-ng-bind="headerVM.printerName"></a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
@@ -53,7 +53,16 @@
                 </div>
                 <div id="tempPanel" class="col-lg-4 col-md-6">
                     <div class="panel panel-default" data-ng-controller="TempCtrl as tempVM">
-                        <div class="panel-heading" translate>Temperatures</div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-left" translate>Temperatures</div>
+                                    <div class="pull-right">
+                                        <label><input type="checkbox" data-ng-model="tempVM.autoCheckEnabled" data-ng-change="tempVM.onAutoCheckChange()"> <span translate>auto-check every:</span></label> <input type="text" style="width:25px" value="200" data-ng-model="tempVM.tempInterval" data-ng-change="tempVM.onTempIntervalChange()"> <span translate>sec</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel-body panel-height">
                             <table class="table">
                                 <thead>
@@ -73,7 +82,7 @@
                                     </td>
                                     <td class="col-lg-3"><span data-ng-bind="tempVM.heaterT0ActualTemp"></span></td>
                                 </tr>
-                                <tr>
+                                <tr data-ng-show="tempVM.secondExtruder.supportEnabled" data-ng-cloak>
                                     <td translate>Heater T1</td>
                                     <td>
                                         <button data-ng-click="tempVM.heatOff('T1')" class="btn btn-primary glyphicon glyphicon-off"></button>&nbsp;&nbsp;
@@ -101,7 +110,16 @@
                 </div>
                 <div id="extruderPanel" class="col-lg-4 col-md-6">
                     <div class="panel panel-default" data-ng-controller="ExtruderCtrl as extVM">
-                        <div class="panel-heading" translate>Extruders</div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-left" translate>Extruders</div>
+                                    <div class="pull-right">
+                                        <label><input type="checkbox" data-ng-model="extVM.secondExtruder.supportEnabled" data-ng-change="extVM.onSecondExtruderSupportChange()"> <span translate>enable second extruder</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel-body panel-height">
                             <table class="table">
                                 <thead>
@@ -118,7 +136,7 @@
                                         <button data-ng-click="extVM.extrude('T0', -1)" class="btn btn-info" translate>Reverse</button>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-ng-show="extVM.secondExtruder.supportEnabled" data-ng-cloak>
                                     <td translate>Extruder T1</td>
                                     <td>
                                         <button data-ng-click="extVM.extrude('T1', 1)" class="btn btn-primary" translate>Extrude</button>
@@ -145,14 +163,22 @@
                                 <button class="btn btn-xs btn-primary" data-ng-click="fileVM.refreshFiles()" translate>Refresh</button>
                                 <button class="btn btn-xs btn-primary" data-ng-click="fileVM.progress()" translate>Progress</button>
                                 <button class="btn btn-xs btn-primary" data-ng-click="fileVM.abort()" translate>Abort</button>
-                                <button class="btn btn-xs btn-primary" data-ng-click="fileVM.upload()" translate>Upload</button>
+                                <button class="btn btn-xs btn-primary" data-ngf-select="fileVM.uploadFile($file)" data-ngf-accept="'.gco,.gcode'" translate>Upload</button>
                             </div>
                         </div>
                         <div class="panel-body panel-height">
                             <ul class="list-group">
-                                <li class="list-group-item" ng-repeat="file in fileVM.fileList">
-                                    <span ng-bind="file"></span>
-                                    <button class="btn btn-xs btn-default pull-right" data-ng-click="fileVM.print(file)" translate>Print</button>
+                                <li class="list-group-item" data-ng-repeat="file in fileVM.fileList">
+                                    <div class="row">
+                                        <div class="col-sm-5" data-ng-bind="file.filename"></div>
+                                        <div class="col-sm-5"><uib-progressbar class="progress-striped active" data-ng-show="file.uploading" value="file.percentage"><span data-ng-bind="file.percentage + '%'" data-ng-hide="file.percentage < 5"></span></uib-progressbar></div>
+                                        <div class="col-sm-2">
+                                            <div class="pull-right">
+                                                <button class="btn btn-xs btn-default" data-ng-click="fileVM.deleteFile(file)" translate>Delete</button>
+                                                <button class="btn btn-xs btn-default" data-ng-click="fileVM.print(file.filename)" translate>Print</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -186,10 +212,14 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.3/angular-sanitize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.1/ui-bootstrap-tpls.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-gettext/2.2.1/angular-gettext.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.1.11/js/xeditable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.7/angular-local-storage.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.0.4/ng-file-upload.min.js"></script>
+
     
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular-sanitize.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.1/ui-bootstrap-tpls.min.js"></script>
-    <script src="https://raw.githubusercontent.com/rubenv/angular-gettext/master/dist/angular-gettext.min.js"></script>
 
     <script src="js/app.js"></script>
 
