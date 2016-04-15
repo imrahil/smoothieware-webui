@@ -4,7 +4,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: www/index.html:159
+#: www/index.html:168
 msgid "Abort"
 msgstr ""
 
@@ -12,7 +12,7 @@ msgstr ""
 msgid "auto-check every:"
 msgstr ""
 
-#: www/index.html:198
+#: www/index.html:207
 msgid "Autoscroll"
 msgstr ""
 
@@ -20,11 +20,11 @@ msgstr ""
 msgid "Bed"
 msgstr ""
 
-#: www/index.html:187
+#: www/index.html:196
 msgid "Clear"
 msgstr ""
 
-#: www/index.html:185
+#: www/index.html:194
 msgid "Commands"
 msgstr ""
 
@@ -32,32 +32,36 @@ msgstr ""
 msgid "Controls"
 msgstr ""
 
-#: www/index.html:171
+#: www/index.html:180
 msgid "Delete"
 msgstr ""
 
-#: www/index.html:129
-#: www/index.html:136
+#: www/index.html:121
+msgid "enable second extruder"
+msgstr ""
+
+#: www/index.html:138
+#: www/index.html:145
 msgid "Extrude"
 msgstr ""
 
-#: www/index.html:127
+#: www/index.html:136
 msgid "Extruder T0"
 msgstr ""
 
-#: www/index.html:134
+#: www/index.html:143
 msgid "Extruder T1"
 msgstr ""
 
-#: www/index.html:116
+#: www/index.html:119
 msgid "Extruders"
 msgstr ""
 
-#: www/index.html:155
+#: www/index.html:164
 msgid "Files"
 msgstr ""
 
-#: www/index.html:199
+#: www/index.html:208
 msgid "Filter temperatures"
 msgstr ""
 
@@ -81,30 +85,30 @@ msgstr ""
 msgid "Motors off"
 msgstr ""
 
-#: www/index.html:121
+#: www/index.html:130
 #: www/index.html:73
 msgid "Name"
 msgstr ""
 
-#: www/index.html:122
+#: www/index.html:131
 #: www/index.html:74
 msgid "Options"
 msgstr ""
 
-#: www/index.html:172
+#: www/index.html:181
 msgid "Print"
 msgstr ""
 
-#: www/index.html:158
+#: www/index.html:167
 msgid "Progress"
 msgstr ""
 
-#: www/index.html:157
+#: www/index.html:166
 msgid "Refresh"
 msgstr ""
 
-#: www/index.html:130
-#: www/index.html:137
+#: www/index.html:139
+#: www/index.html:146
 msgid "Reverse"
 msgstr ""
 
@@ -112,15 +116,15 @@ msgstr ""
 msgid "sec"
 msgstr ""
 
-#: www/index.html:196
+#: www/index.html:205
 msgid "Send"
 msgstr ""
 
-#: www/index.html:195
+#: www/index.html:204
 msgid "Send Command..."
 msgstr ""
 
-#: www/index.html:145
+#: www/index.html:154
 msgid "Settings"
 msgstr ""
 
@@ -132,7 +136,7 @@ msgstr ""
 msgid "Temperatures"
 msgstr ""
 
-#: www/index.html:160
+#: www/index.html:169
 msgid "Upload"
 msgstr ""
 

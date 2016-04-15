@@ -10,13 +10,20 @@
     function ExtruderCtrl(DataService) {
         var vm = this;
 
+        vm.secondExtruder = DataService.secondExtruderState();
+
         vm.filamenLength = 5;
         vm.velocity = 100;
 
+        vm.onSecondExtruderSupportChange = onSecondExtruderSupportChange;
         vm.extrude = extrude;
-        
+
         ////////////////
-        
+
+        function onSecondExtruderSupportChange() {
+            DataService.updateSecondExtruder();
+        }
+
         function extrude(extruder, direction) {
             console.log('Extruder: ' + extruder + ' | length: ' + vm.filamenLength + ' | speed: ' + vm.velocity);
 

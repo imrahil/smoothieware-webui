@@ -27,11 +27,13 @@
         vm.onFilterChange = onFilterChange;
         vm.updateOutput = updateOutput;
 
+        activate();
+
         ////////////////
 
-        $scope.$on('handleBroadcast', function (events, args) {
-            vm.updateOutput(args);
-        });
+        function activate() {
+            DataService.registerOutput(vm);
+        }
 
         function sendCommand() {
             if (!vm.command) {

@@ -20,7 +20,7 @@
         <!-- navbar -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;" data-ng-controller="HeaderCtrl as headerVM">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">Smoothieware webUI - </a><a class="navbar-brand" editable-text="headerVM.your_printer_name" onaftersave="headerVM.updatePrinterName()" data-ng-model="headerVM.your_printer_name"></a>
+                <a class="navbar-brand" href="index.html">Smoothieware webUI - </a><a class="navbar-brand" editable-text="headerVM.printerName" onaftersave="headerVM.updatePrinterName()" data-ng-bind="headerVM.printerName"></a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
@@ -85,7 +85,7 @@
                                     </td>
                                     <td class="col-lg-3"><span data-ng-bind="tempVM.heaterT0ActualTemp"></span></td>
                                 </tr>
-                                <tr>
+                                <tr data-ng-show="tempVM.secondExtruder.supportEnabled" data-ng-cloak>
                                     <td translate>Heater T1</td>
                                     <td>
                                         <button data-ng-click="tempVM.heatOff('T1')" class="btn btn-primary glyphicon glyphicon-off"></button>&nbsp;&nbsp;
@@ -113,7 +113,16 @@
                 </div>
                 <div id="extruderPanel" class="col-lg-4 col-md-6">
                     <div class="panel panel-default" data-ng-controller="ExtruderCtrl as extVM">
-                        <div class="panel-heading" translate>Extruders</div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-left" translate>Extruders</div>
+                                    <div class="pull-right">
+                                        <label><input type="checkbox" data-ng-model="extVM.secondExtruder.supportEnabled" data-ng-change="extVM.onSecondExtruderSupportChange()"> <span translate>enable second extruder</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel-body panel-height">
                             <table class="table">
                                 <thead>
@@ -130,7 +139,7 @@
                                         <button data-ng-click="extVM.extrude('T0', -1)" class="btn btn-info" translate>Reverse</button>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-ng-show="extVM.secondExtruder.supportEnabled" data-ng-cloak>
                                     <td translate>Extruder T1</td>
                                     <td>
                                         <button data-ng-click="extVM.extrude('T1', 1)" class="btn btn-primary" translate>Extrude</button>

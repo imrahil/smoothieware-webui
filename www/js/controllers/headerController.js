@@ -10,7 +10,7 @@
     function HeaderCtrl(gettextCatalog, localStorageService) {
         var vm = this;
 
-        vm.your_printer_name = localStorageService.get('printerName') || 'Your printer name';
+        vm.printerName = localStorageService.get('printerName') || 'Your printer name';
 
         // Language switcher
         vm.languages = {
@@ -34,7 +34,7 @@
         }
 
         function updatePrinterName() {
-            localStorageService.set('printerName', vm.your_printer_name);
+            localStorageService.set('printerName', vm.printerName);
         }
     }
 })();

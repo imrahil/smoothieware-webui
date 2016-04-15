@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: smoothieware-webui\n"
-"PO-Revision-Date: 2016-04-12 20:52+0000\n"
+"PO-Revision-Date: 2016-04-15 14:11+0000\n"
 "Last-Translator: imrahil <imrahil@imrahil.com>\n"
 "Language-Team: Polish (http://www.transifex.com/imrahil/smoothieware-webui/language/pl/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: www/index.html:159
+#: www/index.html:168
 msgid "Abort"
 msgstr "Przerwij"
 
@@ -20,7 +20,7 @@ msgstr "Przerwij"
 msgid "auto-check every:"
 msgstr "sprawdzaj co:"
 
-#: www/index.html:198
+#: www/index.html:207
 msgid "Autoscroll"
 msgstr "Autoscroll"
 
@@ -28,11 +28,11 @@ msgstr "Autoscroll"
 msgid "Bed"
 msgstr "Stół"
 
-#: www/index.html:187
+#: www/index.html:196
 msgid "Clear"
 msgstr "Wyczyść"
 
-#: www/index.html:185
+#: www/index.html:194
 msgid "Commands"
 msgstr "Komendy"
 
@@ -40,31 +40,35 @@ msgstr "Komendy"
 msgid "Controls"
 msgstr "Sterowanie"
 
-#: www/index.html:171
+#: www/index.html:180
 msgid "Delete"
 msgstr "Usuń"
 
-#: www/index.html:129 www/index.html:136
+#: www/index.html:121
+msgid "enable second extruder"
+msgstr "włącz drugi ekstruder"
+
+#: www/index.html:138 www/index.html:145
 msgid "Extrude"
 msgstr "Wytłaczaj"
 
-#: www/index.html:127
+#: www/index.html:136
 msgid "Extruder T0"
 msgstr "Ekstruder T0"
 
-#: www/index.html:134
+#: www/index.html:143
 msgid "Extruder T1"
 msgstr "Ekstruder T1"
 
-#: www/index.html:116
+#: www/index.html:119
 msgid "Extruders"
 msgstr "Ekstrudery"
 
-#: www/index.html:155
+#: www/index.html:164
 msgid "Files"
 msgstr "Pliki"
 
-#: www/index.html:199
+#: www/index.html:208
 msgid "Filter temperatures"
 msgstr "Filtruj temperatury"
 
@@ -88,27 +92,27 @@ msgstr "Język:"
 msgid "Motors off"
 msgstr "Wyłącz"
 
-#: www/index.html:121 www/index.html:73
+#: www/index.html:130 www/index.html:73
 msgid "Name"
 msgstr "Nazwa"
 
-#: www/index.html:122 www/index.html:74
+#: www/index.html:131 www/index.html:74
 msgid "Options"
 msgstr "Opcje"
 
-#: www/index.html:172
+#: www/index.html:181
 msgid "Print"
 msgstr "Drukuj"
 
-#: www/index.html:158
+#: www/index.html:167
 msgid "Progress"
 msgstr "Postęp"
 
-#: www/index.html:157
+#: www/index.html:166
 msgid "Refresh"
 msgstr "Odśwież"
 
-#: www/index.html:130 www/index.html:137
+#: www/index.html:139 www/index.html:146
 msgid "Reverse"
 msgstr "Cofnij"
 
@@ -116,15 +120,15 @@ msgstr "Cofnij"
 msgid "sec"
 msgstr "sek"
 
-#: www/index.html:196
+#: www/index.html:205
 msgid "Send"
 msgstr "Wyślij"
 
-#: www/index.html:195
+#: www/index.html:204
 msgid "Send Command..."
 msgstr "Wyślij polecenie"
 
-#: www/index.html:145
+#: www/index.html:154
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -136,7 +140,7 @@ msgstr "Prędkość:"
 msgid "Temperatures"
 msgstr "Temperatury"
 
-#: www/index.html:160
+#: www/index.html:169
 msgid "Upload"
 msgstr "Wczytaj"
 

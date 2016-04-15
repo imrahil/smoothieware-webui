@@ -63,7 +63,7 @@
         function progress() {
             DataService.runCommand("progress")
                 .then(function (result_data) {
-                    DataService.broadcastItem(result_data);
+                    DataService.broadcastCommand(result_data);
                 }, function (error) {
                     console.error(error.statusText);
                 });
@@ -72,7 +72,7 @@
         function abort() {
             DataService.runCommand("abort")
                 .then(function (result_data) {
-                    DataService.broadcastItem(result_data);
+                    DataService.broadcastCommand(result_data);
                 }, function (error) {
                     console.error(error.statusText);
                 });
@@ -80,7 +80,7 @@
 
         function uploadFile(file) {
             if (file) {
-                DataService.broadcastItem("Uploading: " + file.name + "\n");
+                DataService.broadcastCommand("Uploading: " + file.name + "\n");
 
                 vm.currentUploadedFile = {filename: file.name, uploading: true, percentage: 0};
                 vm.fileList.push(vm.currentUploadedFile);
@@ -92,12 +92,12 @@
                     },
                     data: file
                 }).then(function (resp) {
-                    DataService.broadcastItem('Upload successful. Response: ' + resp.data);
+                    DataService.broadcastCommand('Upload successful. Response: ' + resp.data);
                     vm.currentUploadedFile.uploading = false;
 
                     vm.refreshFiles();
                 }, function (resp) {
-                    DataService.broadcastItem('Error status: ' + resp.status + "\n");
+                    DataService.broadcastCommand('Error status: ' + resp.status + "\n");
                 }, function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     vm.currentUploadedFile.percentage = progressPercentage;
@@ -109,7 +109,7 @@
         function deleteFile(file) {
             DataService.runCommand("M30 " + file.filename)
                 .then(function (result_data) {
-                    DataService.broadcastItem("Deleted file: " + file.filename + "\n");
+                    DataService.broadcastCommand("Deleted file: " + file.filename + "\n");
                     vm.refreshFiles();
                 }, function (error) {
                     console.error(error.statusText);

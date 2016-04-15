@@ -10,6 +10,8 @@
     function TempCtrl($interval, DataService, localStorageService) {
         var vm = this;
 
+        vm.secondExtruder = DataService.secondExtruderState();
+
         vm.localTempInterval = {};
         vm.tempInterval = localStorageService.get('tempInterval') || 3;
         vm.autoCheckEnabled = localStorageService.get('autoCheckEnabled') == "true";
@@ -111,7 +113,7 @@
             DataService.runCommand("M105")
                 .then(function (result_data) {
                     //console.log('Result: ' + result_data);
-                    DataService.broadcastItem(result_data);
+                    DataService.broadcastCommand(result_data);
 
                     var regex_temp = /(B|T(\d*)):\s*([+]?[0-9]*\.?[0-9]+)? (\/)([+]?[0-9]*\.?[0-9]+)?/gi;
                     var result;
