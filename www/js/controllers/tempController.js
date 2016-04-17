@@ -26,6 +26,7 @@
         vm.onTimeout = onTimeout;
         vm.heatOff = heatOff;
         vm.heatSet = heatSet;
+        vm.handleKeyUp = handleKeyUp;
         vm.onAutoCheckChange = onAutoCheckChange;
         vm.onTempIntervalChange = onTempIntervalChange;
         vm.getTemperatures = getTemperatures;
@@ -48,6 +49,19 @@
         function heatOff(heater) {
             console.log('HeatOff - heater: ' + heater);
 
+            var selectedTemp = 0;
+            switch (heater) {
+                case 'T0':
+                    vm.heaterT0SelectedTemp = 0;
+                    break;
+                case 'T1':
+                    vm.heaterT1SelectedTemp = 0;
+                    break;
+                case 'bed':
+                    vm.bedSelectedTemp = 0;
+                    break;
+            }
+
             var isHeater = (heater != 'bed');
             var type = isHeater ? 104 : 140;
 
@@ -66,8 +80,23 @@
                 });
         }
 
-        function heatSet(heater, selectedTemp) {
-            console.log('HeatSet - heater: ' + heater + ' | temp: ' + selectedTemp);
+        function heatSet(heater) {
+            console.log('HeatSet - heater: ' + heater);
+
+            var selectedTemp = 0;
+            switch (heater) {
+                case 'T0':
+                    selectedTemp = vm.heaterT0SelectedTemp;
+                    break;
+                case 'T1':
+                    selectedTemp = vm.heaterT1SelectedTemp;
+                    break;
+                case 'bed':
+                    selectedTemp = vm.bedSelectedTemp;
+                    break;
+            }
+
+            console.log('Temp: ' + selectedTemp);
 
             var isHeater = (heater != 'bed');
             var type = isHeater ? 104 : 140;
@@ -85,6 +114,14 @@
 
                     vm.getTemperatures();
                 });
+        }
+
+        function handleKeyUp(keyEvent, heater) {
+            if (keyEvent.keyCode == 13) {
+                vm.heatSet(heater);
+            }
+
+            return true;
         }
 
         function onAutoCheckChange() {
