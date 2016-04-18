@@ -10,7 +10,8 @@ var gulp = require('gulp'),
     removeCode = require('gulp-remove-code'),
     merge = require('merge-stream'),
     del = require('del'),
-    zip = require('gulp-zip');
+    zip = require('gulp-zip'),
+    htmlmin = require('gulp-htmlmin');
 
 var demoMode = false;
 var testMode = false;
@@ -44,6 +45,11 @@ function cdnizeAndCopy() {
                 cdn: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'
             }]))
             .pipe(cdnizer([{
+                file: 'lib/angular-chart.js/dist/angular-chart.min.css',
+                cdn: 'https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/0.10.0/angular-chart.min.css'
+            }]))
+
+            .pipe(cdnizer([{
                 file: 'lib/angular/angular.min.js',
                 cdn: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js'
             }]))
@@ -70,6 +76,14 @@ function cdnizeAndCopy() {
             .pipe(cdnizer([{
                 file: 'lib/ng-file-upload/ng-file-upload.min.js',
                 cdn: 'https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.0.4/ng-file-upload.min.js'
+            }]))
+            .pipe(cdnizer([{
+                file: 'lib/angular-chart.js/dist/angular-chart.min.js',
+                cdn: 'https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/0.10.0/angular-chart.min.js'
+            }]))
+            .pipe(cdnizer([{
+                file: 'lib/Chart.js/Chart.js',
+                cdn: 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.min.js'
             }]))
             .pipe(gulp.dest('dist')),
 
@@ -115,7 +129,11 @@ function minifyApp() {
                 console.log(details.name + ': ' + details.stats.originalSize);
                 console.log(details.name + ': ' + details.stats.minifiedSize);
             }))
-            .pipe(gulp.dest('./dist/css/'))
+            .pipe(gulp.dest('./dist/css/')),
+
+        gulp.src('dist/index.html')
+            .pipe(htmlmin({collapseWhitespace: true}))
+            .pipe(gulp.dest('dist'))
     )
 }
 
