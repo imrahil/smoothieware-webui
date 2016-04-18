@@ -12,16 +12,37 @@
 
         vm.secondExtruder = DataService.secondExtruderState();
 
+        vm.labels = [];
+        vm.seriesHeater = ["Heater T0"];
+        vm.dataHeater = [[]];
+        vm.heaterColours = ['#4D5360'];
+
+        vm.seriesBed = ["Bed"];
+        vm.dataBed = [[]];
+        vm.bedColours = ['#F7464A'];
+
+        vm.options = {
+            animation: false,
+            showScale: true,
+            showTooltips: false,
+            pointDot: false,
+            datasetStrokeWidth: 0.5,
+            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span class=\"<%=name.toLowerCase()%>-legend-icon\" style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+        };
+
         vm.localTempInterval = {};
         vm.tempInterval = localStorageService.get('tempInterval') || 3;
         vm.autoCheckEnabled = localStorageService.get('autoCheckEnabled') == "true";
 
         vm.heaterT0SelectedTemp = 0;
         vm.heaterT0ActualTemp = "-";
+        vm.heaterT0DisplayTemp = "";
         vm.heaterT1SelectedTemp = 0;
         vm.heaterT1ActualTemp = "-";
+        vm.heaterT1DisplayTemp = "";
         vm.bedSelectedTemp = 0;
         vm.bedActualTemp = "-";
+        vm.bedDisplayTemp = "";
 
         vm.onTimeout = onTimeout;
         vm.heatOff = heatOff;
@@ -49,7 +70,6 @@
         function heatOff(heater) {
             console.log('HeatOff - heater: ' + heater);
 
-            var selectedTemp = 0;
             switch (heater) {
                 case 'T0':
                     vm.heaterT0SelectedTemp = 0;
@@ -161,14 +181,29 @@
                         value += " | " + result[5] + "°C";
 
                         if (tool == "T") {
-                            vm.heaterT0ActualTemp = value;
+                            vm.heaterT0ActualTemp = result[3];
+                            vm.heaterT0DisplayTemp = value;
                         }
                         else if (tool == "T1") {
-                            vm.heaterT1ActualTemp = value;
+                            vm.heaterT1ActualTemp = result[3];
+                            vm.heaterT1DisplayTemp = value;
                         }
                         if (tool == "B") {
-                            vm.bedActualTemp = value;
+                            vm.bedActualTemp = Number(result[3]);
+                            vm.bedDisplayTemp = value;
                         }
+                    }
+
+                    if (vm.labels.length) {
+                        vm.labels = vm.labels.slice(1);
+                        vm.dataHeater[0] = vm.dataHeater[0].slice(1);
+                        vm.dataBed[0] = vm.dataBed[0].slice(1);
+                    }
+
+                    while (vm.labels.length < 20) {
+                        vm.labels.push('');
+                        vm.dataHeater[0].push(vm.heaterT0ActualTemp);
+                        vm.dataBed[0].push(vm.bedActualTemp);
                     }
                 }, function (error) {
                     console.error(error.statusText);

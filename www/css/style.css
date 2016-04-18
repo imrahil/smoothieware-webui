@@ -5,13 +5,72 @@
 .table tbody>tr>td{
     vertical-align: middle;
 }
+
+.panel-heading input {
+    margin: 0 !important;
+    line-height: 0;
+}
+
+.panel-heading label {
+    margin-bottom: 0 !important;
+}
+
 .panel-footer {
     height: 55px;
 }
 
+.panel-height {
+    height: 300px;
+}
+
+.panel-height-temp {
+    height: 485px;
+}
+
 @media(min-width:768px) {
     .panel-height {
-        min-height: 300px;
+        height: 300px;
+    }
+    .panel-height-temp {
+        height: 485px;
+    }
+}
+
+@media(min-width:992px) {
+    .panel-height {
+        height: 430px;
+    }
+    .panel-height-temp {
+        height: 485px;
+    }
+}
+
+@media(min-width:1200px) {
+    .panel-height {
+        height: 320px;
+    }
+    .panel-height-temp {
+        height: 375px;
+    }
+
+    .panel-height-temp .btn {
+        padding: 3px 6px;
+        font-size: 12px;
+    }
+
+    .panel-height-temp .tempDisplay {
+        font-size: 12px;
+    }
+}
+
+@media(min-width:1600px) {
+    .panel-height-temp .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .panel-height-temp .tempDisplay {
+        font-size: 14px;
     }
 }
 
@@ -35,5 +94,10 @@ a.editable-click {
 }
 
 .progress {
+    margin-bottom: 0;
+}
+
+.line-legend {
+    margin-top: -20px !important;
     margin-bottom: 0;
 }

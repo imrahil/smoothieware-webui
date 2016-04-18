@@ -26,6 +26,8 @@
     "angular-scroll-glue": "^2.0.6",
     "angular-xeditable": "^0.1.11",
     "angular-local-storage": "^0.2.7",
-    "ng-file-upload": "^12.0.4"
+    "ng-file-upload": "^12.0.4",
+    "angular-chart.js": "^0.10.0",
+    "Chart.js": "^2.0.2"
   }
 }

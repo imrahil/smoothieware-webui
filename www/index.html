@@ -5,6 +5,7 @@
         <title>Smoothieware WebUI</title>
 
         <link href="lib/bootstrap-css-only/css/bootstrap.min.css" rel="stylesheet">
+        <link href="lib/angular-chart.js/dist/angular-chart.css" rel="stylesheet">
 
         <!--removeIf(production)-->
         <link href="lib/angular-xeditable/dist/css/xeditable.min.css" rel="stylesheet">
@@ -40,7 +41,13 @@
             <div class="row">
                 <div id="motorPanel" class="col-lg-4 col-md-6">
                     <div class="panel panel-default" data-ng-controller="MotorCtrl as motoVM">
-                        <div class="panel-heading" translate>Controls</div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-left" translate>Controls</div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel-body panel-height">
                             <span data-ng-include="'img/jogdial.svg'"></span>
                         </div>
@@ -66,7 +73,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-body panel-height">
+                        <div class="panel-body panel-height-temp">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -83,7 +90,7 @@
                                         <input type="text" style="width:50px" value="200" data-ng-model="tempVM.heaterT0SelectedTemp" data-ng-keyup="tempVM.handleKeyUp($event, 'T0')">&deg;C&nbsp;&nbsp;
                                         <button data-ng-click="tempVM.heatSet('T0')" class="btn btn-danger glyphicon glyphicon-ok"></button>
                                     </td>
-                                    <td class="col-lg-3"><span data-ng-bind="tempVM.heaterT0ActualTemp"></span></td>
+                                    <td class="col-lg-3"><span class="tempDisplay" data-ng-bind="tempVM.heaterT0DisplayTemp"></span></td>
                                 </tr>
                                 <tr data-ng-show="tempVM.secondExtruder.supportEnabled" data-ng-cloak>
                                     <td translate>Heater T1</td>
@@ -92,7 +99,7 @@
                                         <input type="text" style="width:50px" value="200" data-ng-model="tempVM.heaterT1SelectedTemp" data-ng-keyup="tempVM.handleKeyUp($event, 'T1')">&deg;C&nbsp;&nbsp;
                                         <button data-ng-click="tempVM.heatSet('T1')" class="btn btn-danger glyphicon glyphicon-ok"></button>
                                     </td>
-                                    <td><span data-ng-bind="tempVM.heaterT1ActualTemp"></span></td>
+                                    <td><span class="tempDisplay" data-ng-bind="tempVM.heaterT1DisplayTemp"></span></td>
                                 </tr>
                                 <tr>
                                     <td translate>Bed</td>
@@ -101,13 +108,21 @@
                                         <input type="text" style="width:50px" value="60" data-ng-model="tempVM.bedSelectedTemp" data-ng-keyup="tempVM.handleKeyUp($event, 'bed')">&deg;C&nbsp;&nbsp;
                                         <button data-ng-click="tempVM.heatSet('bed')" class="btn btn-danger glyphicon glyphicon-ok"></button>
                                     </td>
-                                    <td><span ng-bind="tempVM.bedActualTemp"></span></td>
+                                    <td><span class="tempDisplay" ng-bind="tempVM.bedDisplayTemp"></span></td>
                                 </tr>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="panel-footer text-center">
-                            <button data-ng-click="tempVM.getTemperatures()" class="btn btn-success" translate>Get temperature</button>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <canvas id="heaterTempBar" height="100" class="chart chart-line" data-chart-data="tempVM.dataHeater" data-chart-labels="tempVM.labels"
+                                            data-chart-series="tempVM.seriesHeater" data-chart-options="tempVM.options" data-chart-legend="true" data-chart-colours="tempVM.heaterColours"></canvas>
+                                </div>
+                                <div class="col-lg-6">
+                                    <canvas id="bedTempBar" height="100" class="chart chart-line" data-chart-data="tempVM.dataBed" data-chart-labels="tempVM.labels"
+                                            data-chart-series="tempVM.seriesBed" data-chart-options="tempVM.options" data-chart-legend="true" data-chart-colours="tempVM.bedColours"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -173,9 +188,9 @@
                             <ul class="list-group">
                                 <li class="list-group-item" data-ng-repeat="file in fileVM.fileList">
                                     <div class="row">
-                                        <div class="col-sm-5" data-ng-bind="file.filename"></div>
-                                        <div class="col-sm-5"><uib-progressbar class="progress-striped active" data-ng-show="file.uploading" value="file.percentage"><span data-ng-bind="file.percentage + '%'" data-ng-hide="file.percentage < 5"></span></uib-progressbar></div>
-                                        <div class="col-sm-2">
+                                        <div class="col-md-4 col-sm-5" data-ng-bind="file.filename"></div>
+                                        <div class="col-md-4 col-sm-5"><uib-progressbar class="progress-striped active" data-ng-show="file.uploading" value="file.percentage"><span data-ng-bind="file.percentage + '%'" data-ng-hide="file.percentage < 5"></span></uib-progressbar></div>
+                                        <div class="col-md-4 col-sm-2">
                                             <div class="pull-right">
                                                 <button class="btn btn-xs btn-default" data-ng-click="fileVM.deleteFile(file)" translate>Delete</button>
                                                 <button class="btn btn-xs btn-default" data-ng-click="fileVM.print(file.filename)" translate>Print</button>
@@ -221,6 +236,8 @@
     <script src="lib/angular-xeditable/dist/js/xeditable.min.js"></script>
     <script src="lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
     <script src="lib/ng-file-upload/ng-file-upload.min.js"></script>
+    <script src="lib/Chart.js/Chart.js"></script>
+    <script src="lib/angular-chart.js/dist/angular-chart.min.js"></script>
 
     <!--removeIf(production)-->
     <script src="lib/angular-mocks/angular-mocks.js"></script>
