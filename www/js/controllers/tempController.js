@@ -15,19 +15,34 @@
         vm.labels = [];
         vm.seriesHeater = ["Heater T0"];
         vm.dataHeater = [[]];
-        vm.heaterColours = ['#4D5360'];
+        vm.heaterColours = [{
+            backgroundColor: "rgba(77, 83, 96, 0.2)",
+            borderColor: "rgba(77, 83, 96, 0.5)"
+        }];
 
         vm.seriesBed = ["Bed"];
         vm.dataBed = [[]];
-        vm.bedColours = ['#F7464A'];
+        vm.bedColours = [{
+            backgroundColor: "rgba(247, 70, 74, 0.2)",
+            borderColor: "rgba(247, 70, 74, 0.5)"
+        }];
+
+        Chart.defaults.global.elements.point.radius = 0;
+        Chart.defaults.global.legend.position = "bottom";
+        Chart.defaults.global.animation.duration = 0;
+        Chart.defaults.global.elements.line.borderWidth = 1;
 
         vm.options = {
-            animation: false,
-            showScale: true,
-            showTooltips: false,
-            pointDot: false,
-            datasetStrokeWidth: 0.5,
-            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span class=\"<%=name.toLowerCase()%>-legend-icon\" style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+            tooltips: {
+                enabled: false
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    }
+                }]
+            }
         };
 
         vm.localTempInterval = {};

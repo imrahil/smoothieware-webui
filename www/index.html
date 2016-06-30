@@ -5,7 +5,6 @@
         <title>Smoothieware WebUI</title>
 
         <link href="lib/bootstrap-css-only/css/bootstrap.min.css" rel="stylesheet">
-        <link href="lib/angular-chart.js/dist/angular-chart.min.css" rel="stylesheet">
 
         <!--removeIf(production)-->
         <link href="lib/angular-xeditable/dist/css/xeditable.min.css" rel="stylesheet">
@@ -115,12 +114,12 @@
 
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <canvas id="heaterTempBar" height="100" class="chart chart-line" data-chart-data="tempVM.dataHeater" data-chart-labels="tempVM.labels"
-                                            data-chart-series="tempVM.seriesHeater" data-chart-options="tempVM.options" data-chart-legend="true" data-chart-colours="tempVM.heaterColours"></canvas>
+                                    <canvas id="heaterTempBar" height="140" class="chart chart-line" data-chart-type="line" data-chart-data="tempVM.dataHeater" data-chart-labels="tempVM.labels"
+                                            data-chart-series="tempVM.seriesHeater" data-chart-options="tempVM.options" data-chart-legend="true" data-chart-colors="tempVM.heaterColours"></canvas>
                                 </div>
                                 <div class="col-lg-6">
-                                    <canvas id="bedTempBar" height="100" class="chart chart-line" data-chart-data="tempVM.dataBed" data-chart-labels="tempVM.labels"
-                                            data-chart-series="tempVM.seriesBed" data-chart-options="tempVM.options" data-chart-legend="true" data-chart-colours="tempVM.bedColours"></canvas>
+                                    <canvas id="bedTempBar" height="140" class="chart chart-line" data-chart-data="tempVM.dataBed" data-chart-labels="tempVM.labels"
+                                            data-chart-series="tempVM.seriesBed" data-chart-options="tempVM.options" data-chart-legend="true" data-chart-colors="tempVM.bedColours"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -236,10 +235,10 @@
     <script src="lib/angular-xeditable/dist/js/xeditable.min.js"></script>
     <script src="lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
     <script src="lib/ng-file-upload/ng-file-upload.min.js"></script>
-    <script src="lib/Chart.js/Chart.js"></script>
-    <script src="lib/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script src="lib/Chart.js/dist/Chart.js"></script>
 
     <!--removeIf(production)-->
+    <script src="lib/angular-chart.js/dist/angular-chart.min.js"></script>
     <script src="lib/angular-mocks/angular-mocks.js"></script>
     <script src="lib/angular-scroll-glue/src/scrollglue.js"></script>
     <!--endRemoveIf(production)-->
