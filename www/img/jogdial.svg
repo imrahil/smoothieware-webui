@@ -82,12 +82,12 @@
         </g>
     </g>
 
-    <g id="+Z" fill="#b0b0b0" transform="translate(270, 10)">
+    <g id="+Z" fill="#b0b0b0" transform="translate(270, 10)" pointer-events="none">
         <path class="std" d=" M5,0 h30 a5,5 0 0,1 5,5 v27 h-40 v-27 a5,5 0 0,1 5,-5 z"/>
         <path class="std" d="M20,2 l17,17 h-10 v11 h-14 v-11 h-10 z" fill="DarkSeaGreen"/>
         <text x="11" y="18" font-size="12"> +Z</text>
     </g>
-    <g id="-Z" fill="#b0b0b0" transform="translate(270, 10)">
+    <g id="-Z" fill="#b0b0b0" transform="translate(270, 10)" pointer-events="none">
         <path class="std" d=" M0,208 h40 v27 a5,5 0 0,1 -5,5 h-30 a5,5 0 0,1 -5,-5 z"/>
         <path class="std" d="M20,238 l-17,-17 h10 v-11 h14 v11 h10 z" fill="DarkSeaGreen"/>
         <text x="13" y="230" font-size="12"> -Z</text>
@@ -116,7 +116,7 @@
     <g id="Z-0.1" data-ng-click="motoVM.jogZClick('Z-0.1')" fill="#f0f0f0" transform="translate(270, 10)">
         <rect class="std" x="0" y="128" width="40" height="24" />
     </g>
-    <g id="ZSpace" fill="#000000" transform="translate(270, 10)">
+    <g id="ZSpace" fill="#000000" transform="translate(270, 10)" pointer-events="none">
         <rect class="std" x="0" y="112" width="40" height="16"/>
     </g>
 
