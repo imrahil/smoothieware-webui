@@ -11,7 +11,9 @@
         <link href="css/sb-admin-2.css" rel="stylesheet">
         <!--endRemoveIf(production)-->
 
+        <!-- smoosh -->
         <link href="css/style.css" rel="stylesheet">
+        <!-- endsmoosh -->
     </head>
 
 <body>
@@ -48,7 +50,7 @@
                             </div>
                         </div>
                         <div class="panel-body panel-height">
-                            <span data-ng-include="'img/jogdial.svg'"></span>
+                            <!-- replaceSVG --><object data="img/jogdial.svg" type="image/svg+xml" ></object><!-- /replaceSVG -->
                         </div>
                         <div class="panel-footer">
                             <div class="row">
@@ -243,7 +245,9 @@
     <script src="lib/angular-scroll-glue/src/scrollglue.js"></script>
     <!--endRemoveIf(production)-->
 
+    <!-- smoosh -->
     <script src="js/app.js"></script>
+    <!-- endsmoosh -->
 
     <!--removeIf(production)-->
     <script src="js/translations.js"></script>

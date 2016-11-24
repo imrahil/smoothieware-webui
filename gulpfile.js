@@ -11,7 +11,10 @@ var gulp = require('gulp'),
     merge = require('merge-stream'),
     del = require('del'),
     zip = require('gulp-zip'),
-    htmlmin = require('gulp-htmlmin');
+    htmlmin = require('gulp-htmlmin'),
+    replace = require('gulp-replace'),
+    fs = require('fs'),
+    smoosher = require('gulp-smoosher');
 
 var demoMode = false;
 var testMode = false;
@@ -114,6 +117,14 @@ function concatApp() {
     )
 }
 
+function replaceSVG() {
+    return gulp.src('dist/index.html')
+        .pipe(replace(/<!-- replaceSVG -->(.*|\n)*?<!-- \/replaceSVG -->/g, function (match, p1) {
+            return fs.readFileSync('dist/img/jogdial.svg', 'utf8');
+        }))
+        .pipe(gulp.dest('dist'))
+}
+
 function minifyApp() {
     return merge(
         gulp.src(['dist/js/app.js'])
@@ -131,13 +142,19 @@ function minifyApp() {
             .pipe(gulp.dest('./dist/css/')),
 
         gulp.src('dist/index.html')
-            .pipe(htmlmin({collapseWhitespace: true}))
+            .pipe(htmlmin({collapseWhitespace: true, minifyCSS: true}))
             .pipe(gulp.dest('dist'))
     )
 }
 
+function smoosh() {
+    return gulp.src('dist/index.html')
+        .pipe(smoosher())
+        .pipe(gulp.dest('dist'))
+}
+
 function compress() {
-    return gulp.src('dist/**/*')
+    return gulp.src('dist/index.html')
         .pipe(zip('dist.zip'))
         .pipe(gulp.dest('.'));
 }
@@ -153,14 +170,16 @@ gulp.task(cleanDemo);
 gulp.task(cleanTest);
 gulp.task(lint);
 gulp.task(cdnizeAndCopy);
+gulp.task(replaceSVG);
 gulp.task(concatApp);
 gulp.task(concatTest);
 gulp.task(minifyApp);
+gulp.task(smoosh);
 
-var defaultSeries = gulp.series(clean, lint, cdnizeAndCopy, concatApp, minifyApp);
-var packageSeries = gulp.series(clean, lint, cdnizeAndCopy, concatApp, minifyApp, compress);
-var demoSeries = gulp.series(cleanDemo, lint, cdnizeAndCopy, concatApp, minifyApp);
-var testSeries = gulp.series(cleanTest, lint, cdnizeAndCopy, concatApp, minifyApp, concatTest);
+var defaultSeries = gulp.series(clean,  lint, cdnizeAndCopy, concatApp, minifyApp, smoosh);
+var packageSeries = gulp.series(clean,  lint, cdnizeAndCopy, replaceSVG, concatApp, minifyApp, smoosh, compress);
+var demoSeries = gulp.series(cleanDemo, lint, cdnizeAndCopy, replaceSVG, concatApp, minifyApp, smoosh);
+var testSeries = gulp.series(cleanTest, lint, cdnizeAndCopy, concatApp, minifyApp, smoosh, concatTest);
 
 gulp.task('default', defaultSeries);
 gulp.task('demo', demoSeries);
