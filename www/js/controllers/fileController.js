@@ -92,7 +92,7 @@
                     },
                     data: file
                 }).then(function (resp) {
-                    DataService.broadcastCommand('Upload successful. Response: ' + resp.data);
+                    DataService.broadcastCommand("Upload successful.\n");
                     vm.currentUploadedFile.uploading = false;
 
                     vm.refreshFiles();
