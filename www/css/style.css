@@ -23,6 +23,10 @@
     height: 300px;
 }
 
+.panel-scroll {
+    overflow-y: scroll;
+}
+
 .panel-height-temp {
     height: 485px;
 }
