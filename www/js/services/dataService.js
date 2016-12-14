@@ -31,7 +31,12 @@
         function runCommand(cmd) {
             cmd += "\n";
 
-            return $http.post(url, cmd)
+            var config = {
+                headers: {
+                    'Content-Type': 'text/plain'
+                }
+            };
+            return $http.post(url, cmd, config)
                 .then(function (response) {
                     return response.data;
                 });

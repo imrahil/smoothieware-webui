@@ -14,10 +14,10 @@ var gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
     replace = require('gulp-replace'),
     fs = require('fs'),
-    smoosher = require('gulp-smoosher');
+    smoosher = require('gulp-smoosher')
+    nginclude = require('gulp-nginclude');
 
 var demoMode = false;
-var testMode = false;
 
 function clean() {
     return del(['dist']);
@@ -25,11 +25,6 @@ function clean() {
 
 function cleanDemo() {
     demoMode = true;
-    return del(['dist']);
-}
-
-function cleanTest() {
-    testMode = true;
     return del(['dist']);
 }
 
@@ -87,10 +82,7 @@ function cdnizeAndCopy() {
                 file: 'lib/Chart.js/dist/Chart.js',
                 cdn: 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js'
             }]))
-            .pipe(gulp.dest('dist')),
-
-        gulp.src(['www/img/**/*.*'])
-            .pipe(gulp.dest('dist/img'))
+            .pipe(gulp.dest('dist'))
     )
 }
 
@@ -99,10 +91,6 @@ function concatApp() {
 
     if (demoMode) {
         src = src.concat('www/lib/angular-mocks/**/angular-mocks.js');
-    }
-
-    if (testMode) {
-        src = src.concat('!www/js/controllers/fileController.js');
     }
 
     return merge(
@@ -117,10 +105,20 @@ function concatApp() {
     )
 }
 
+function partials() {
+    return merge(
+        gulp.src('dist/index.html')
+            .pipe(replace(/<ng-include src="'partials\/(.*?)'"><\/ng-include>/g, function (match, p1) {
+                return fs.readFileSync('www/partials/' + p1, 'utf8');
+            }))
+            .pipe(gulp.dest('dist/'))
+    )
+}
+
 function replaceSVG() {
     return gulp.src('dist/index.html')
-        .pipe(replace(/<!-- replaceSVG -->(.*|\n)*?<!-- \/replaceSVG -->/g, function (match, p1) {
-            return fs.readFileSync('dist/img/jogdial.svg', 'utf8');
+        .pipe(replace(/<!-- replaceSVG --><data-ng-include src="'img\/jogdial.svg'"><\/data-ng-include><!-- \/replaceSVG -->/g, function (match, p1) {
+            return fs.readFileSync('www/img/jogdial.svg', 'utf8');
         }))
         .pipe(gulp.dest('dist'))
 }
@@ -159,30 +157,19 @@ function compress() {
         .pipe(gulp.dest('.'));
 }
 
-function concatTest() {
-    return gulp.src(['dist/js/app.js', 'www/js/controllers/fileController.js'])
-        .pipe(concat('app.js'))
+function addDemoMock() {
+    return gulp.src(['dist/js/app.js'])
+        .pipe(removeCode({demo: true}))
         .pipe(gulp.dest('./dist/js/'))
 }
 
-gulp.task(clean);
-gulp.task(cleanDemo);
-gulp.task(cleanTest);
-gulp.task(lint);
-gulp.task(cdnizeAndCopy);
-gulp.task(replaceSVG);
-gulp.task(concatApp);
-gulp.task(concatTest);
-gulp.task(minifyApp);
-gulp.task(smoosh);
-
-var defaultSeries = gulp.series(clean,  lint, cdnizeAndCopy, concatApp, minifyApp, smoosh);
-var packageSeries = gulp.series(clean,  lint, cdnizeAndCopy, replaceSVG, concatApp, minifyApp, smoosh, compress);
-var demoSeries = gulp.series(cleanDemo, lint, cdnizeAndCopy, replaceSVG, concatApp, minifyApp, smoosh);
-var testSeries = gulp.series(cleanTest, lint, cdnizeAndCopy, concatApp, minifyApp, smoosh, concatTest);
+var defaultSeries = gulp.series(clean,  lint, cdnizeAndCopy, concatApp, partials, replaceSVG, minifyApp, smoosh);
+var packageSeries = gulp.series(clean,  lint, cdnizeAndCopy, concatApp, partials, replaceSVG, minifyApp, smoosh, compress);
+var demoSeries = gulp.series(cleanDemo, lint, cdnizeAndCopy, concatApp, partials, replaceSVG, addDemoMock, minifyApp, smoosh);
+var debugSeries = gulp.series(clean,    lint, cdnizeAndCopy, concatApp, partials, replaceSVG);
 
 gulp.task('default', defaultSeries);
-gulp.task('demo', demoSeries);
 gulp.task('package', packageSeries);
-gulp.task('test', testSeries);
+gulp.task('demo', demoSeries);
+gulp.task('debug', debugSeries);
 

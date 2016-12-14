@@ -3,9 +3,15 @@
 
     angular
         .module('smoothieApp', ['ui.bootstrap', 'gettext', 'ngSanitize', 'luegg.directives', 'xeditable', 'LocalStorageModule', 'ngFileUpload', 'chart.js',
-            //removeIf(production)
+            //removeIf(demo)
+            /*
+            //endRemoveIf(demo)
+
             'ngMockE2E'
-            //endRemoveIf(production)
+
+            //removeIf(demo)
+            */
+            //endRemoveIf(demo)
             ])
         .config(ConfigBlock)
         .run(RunBlock);
@@ -30,7 +36,9 @@
         editableOptions.theme = 'bs3';
         editableOptions.activate = 'select';
 
-        //removeIf(production)
+        //removeIf(demo)
+        /*
+        //endRemoveIf(demo)
         var heaterT0SelectedTemp = 0;
         var heaterT1SelectedTemp = 0;
         var bedSelectedTemp = 0;
@@ -62,9 +70,9 @@
                     "config.txt\n" +
                     "web\n" +
                     "web2\n" +
-                    "test" + (rand + 2) + ".gcode\n" +
-                    "test" + (rand - 2) + ".gcode\n" +
-                    "test" + (rand + 3) + ".gcode\n" +
+                    "demo_test" + (rand + 2) + ".gcode\n" +
+                    "demo_test" + (rand - 2) + ".gcode\n" +
+                    "demo_test" + (rand + 3) + ".gcode\n" +
                     "End file list\n" +
                     "ok";
             } else if (data.indexOf("M104") > -1 || data.indexOf("M140") > -1) {
@@ -112,6 +120,8 @@
         }
 
         $httpBackend.whenGET(/^img\//).passThrough();
-        //endRemoveIf(production)
+        //removeIf(demo)
+        */
+        //endRemoveIf(demo)
     }
 })();

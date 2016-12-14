@@ -1,0 +1,30 @@
+<div id="filePanel" class="col-lg-6 col-md-6">
+    <div class="panel panel-default" data-ng-controller="FileCtrl as fileVM">
+        <div class="panel-heading">
+            <span translate>Files</span>
+            <div class="pull-right">
+                <button class="btn btn-xs btn-primary" data-ng-click="fileVM.refreshFiles()" translate>Refresh</button>
+                <button class="btn btn-xs btn-primary" data-ng-click="fileVM.progress()" translate>Progress</button>
+                <button class="btn btn-xs btn-primary" data-ng-click="fileVM.abort()" translate>Abort</button>
+                <button class="btn btn-xs btn-primary" data-ngf-select="fileVM.uploadFile($file)" data-ngf-accept="'.gco,.gcode'" translate>Upload</button>
+            </div>
+        </div>
+        <div class="panel-body panel-height panel-scroll">
+            <ul class="list-group">
+                <li class="list-group-item" data-ng-repeat="file in fileVM.fileList">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-5" data-ng-bind="file.filename"></div>
+                        <div class="col-md-4 col-sm-5"><uib-progressbar class="progress-striped active" data-ng-show="file.uploading" value="file.percentage"><span data-ng-bind="file.percentage + '%'" data-ng-hide="file.percentage < 5"></span></uib-progressbar></div>
+                        <div class="col-md-4 col-sm-2">
+                            <div class="pull-right">
+                                <button class="btn btn-xs btn-default" data-ng-click="fileVM.deleteFile(file)" translate>Delete</button>
+                                <button class="btn btn-xs btn-default" data-ng-click="fileVM.print(file.filename)" translate>Print</button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-footer"></div>
+    </div>
+</div>

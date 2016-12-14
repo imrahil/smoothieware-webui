@@ -1,0 +1,16 @@
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;" data-ng-controller="HeaderCtrl as headerVM">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="index.html">Smoothieware webUI - </a><a class="navbar-brand" editable-text="headerVM.printerName" onaftersave="headerVM.updatePrinterName()" data-ng-bind="headerVM.printerName"></a>
+    </div>
+
+    <ul class="nav navbar-top-links navbar-right">
+        <li uib-dropdown>
+            <a class="dropdown-toggle" href="#" uib-dropdown-toggle><span translate>Language:</span> <span data-ng-bind="headerVM.languages.current"></span> <i class="fa fa-caret-down"></i></a>
+            <ul class="dropdown-menu" uib-dropdown-menu>
+                <li data-ng-repeat="(key, value) in headerVM.languages.available">
+                    <a href="#" data-ng-click="headerVM.setLanguage(key)"><div>{{value}} - {{key}}</div></a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>

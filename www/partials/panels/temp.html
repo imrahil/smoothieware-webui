@@ -1,0 +1,65 @@
+<div id="tempPanel" class="col-lg-4 col-md-6">
+    <div class="panel panel-default" data-ng-controller="TempCtrl as tempVM">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left" translate>Temperatures</div>
+                    <div class="pull-right">
+                        <label><input type="checkbox" data-ng-model="tempVM.autoCheckEnabled" data-ng-change="tempVM.onAutoCheckChange()"> <span translate>auto-check every:</span></label> <input type="text" style="width:25px" value="200" data-ng-model="tempVM.tempInterval" data-ng-change="tempVM.onTempIntervalChange()"> <span translate>sec</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body panel-height-temp">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th translate>Name</th>
+                        <th translate>Options</th>
+                        <th translate>Value | Target</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-lg-3 col-md-3" translate>Heater T0</td>
+                    <td class="col-lg-6">
+                        <button data-ng-click="tempVM.heatOff('T0')" class="btn btn-primary glyphicon glyphicon-off"></button>&nbsp;&nbsp;
+                        <input type="text" style="width:50px" value="200" data-ng-model="tempVM.heaterT0SelectedTemp" data-ng-keyup="tempVM.handleKeyUp($event, 'T0')">&deg;C&nbsp;&nbsp;
+                        <button data-ng-click="tempVM.heatSet('T0')" class="btn btn-danger glyphicon glyphicon-ok"></button>
+                    </td>
+                    <td class="col-lg-3"><span class="tempDisplay" data-ng-bind="tempVM.heaterT0DisplayTemp"></span></td>
+                </tr>
+                <tr data-ng-show="tempVM.secondExtruder.supportEnabled" data-ng-cloak>
+                    <td translate>Heater T1</td>
+                    <td>
+                        <button data-ng-click="tempVM.heatOff('T1')" class="btn btn-primary glyphicon glyphicon-off"></button>&nbsp;&nbsp;
+                        <input type="text" style="width:50px" value="200" data-ng-model="tempVM.heaterT1SelectedTemp" data-ng-keyup="tempVM.handleKeyUp($event, 'T1')">&deg;C&nbsp;&nbsp;
+                        <button data-ng-click="tempVM.heatSet('T1')" class="btn btn-danger glyphicon glyphicon-ok"></button>
+                    </td>
+                    <td><span class="tempDisplay" data-ng-bind="tempVM.heaterT1DisplayTemp"></span></td>
+                </tr>
+                <tr>
+                    <td translate>Bed</td>
+                    <td>
+                        <button data-ng-click="tempVM.heatOff('bed')" class="btn btn-primary glyphicon glyphicon-off"></button>&nbsp;&nbsp;
+                        <input type="text" style="width:50px" value="60" data-ng-model="tempVM.bedSelectedTemp" data-ng-keyup="tempVM.handleKeyUp($event, 'bed')">&deg;C&nbsp;&nbsp;
+                        <button data-ng-click="tempVM.heatSet('bed')" class="btn btn-danger glyphicon glyphicon-ok"></button>
+                    </td>
+                    <td><span class="tempDisplay" ng-bind="tempVM.bedDisplayTemp"></span></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <canvas id="heaterTempBar" height="140" class="chart chart-line" data-chart-type="line" data-chart-data="tempVM.dataHeater" data-chart-labels="tempVM.labels"
+                            data-chart-series="tempVM.seriesHeater" data-chart-options="tempVM.options" data-chart-legend="true" data-chart-colors="tempVM.heaterColours"></canvas>
+                </div>
+                <div class="col-lg-6">
+                    <canvas id="bedTempBar" height="140" class="chart chart-line" data-chart-data="tempVM.dataBed" data-chart-labels="tempVM.labels"
+                            data-chart-series="tempVM.seriesBed" data-chart-options="tempVM.options" data-chart-legend="true" data-chart-colors="tempVM.bedColours"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

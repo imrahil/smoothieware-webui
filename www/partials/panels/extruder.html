@@ -1,0 +1,47 @@
+<div id="extruderPanel" class="col-lg-4 col-md-6">
+    <div class="panel panel-default" data-ng-controller="ExtruderCtrl as extVM">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left" translate>Extruders</div>
+                    <div class="pull-right">
+                        <label><input type="checkbox" data-ng-model="extVM.secondExtruder.supportEnabled" data-ng-change="extVM.onSecondExtruderSupportChange()"> <span translate>enable second extruder</span></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body panel-height">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th translate>Name</th>
+                        <th colspan="2" translate>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-lg-4" translate>Extruder T0</td>
+                    <td>
+                        <button data-ng-click="extVM.extrude('T0', 1)" class="btn btn-primary" translate>Extrude</button>
+                        <button data-ng-click="extVM.extrude('T0', -1)" class="btn btn-info" translate>Reverse</button>
+                    </td>
+                </tr>
+                <tr data-ng-show="extVM.secondExtruder.supportEnabled" data-ng-cloak>
+                    <td translate>Extruder T1</td>
+                    <td>
+                        <button data-ng-click="extVM.extrude('T1', 1)" class="btn btn-primary" translate>Extrude</button>
+                        <button data-ng-click="extVM.extrude('T1', -1)" class="btn btn-info" translate>Reverse</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-lg-2 col-sm-2 col-xs-2" translate>Settings</div>
+                <div class="col-lg-3 col-md-4 col-sm-3 col-xs-5"><input type="text" class="col-lg-6 col-md-6 col-sm-6 col-xs-4" data-ng-model="extVM.filamenLength">&nbsp;mm @</div>
+                <div class="col-lg-3 col-md-4 col-sm-3 col-xs-5"><input type="text" class="col-lg-6 col-md-6 col-sm-6 col-xs-4" data-ng-model="extVM.velocity">&nbsp;mm/min</div>
+            </div>
+        </div>
+    </div>
+</div>
